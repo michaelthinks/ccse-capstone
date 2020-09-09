@@ -20,6 +20,7 @@ export default class App extends Component {
 
     return (
       <View style={globalStyles.container}>
+        <StatusBar hidden={true} />
         <ImageBackground source= {require( "../Group3/assets/KSU.jpg" )} style={{ width: '100%', height: '100%'}}>
 
           {/* This block of code is used to set set up the drawers on the main page of the app
