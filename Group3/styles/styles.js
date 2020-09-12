@@ -8,15 +8,76 @@ export const globalStyles = StyleSheet.create({
         justifyContent: 'center',
         height: '100%',
         paddingTop: ( Platform.OS === 'android' ) ? 0 : 0,
+        paddingBottom: 5,
       },
+    
+    contentContainer: {
+        flex: 0.90,
+        flexDirection: 'row',
+    },
+
+    eventList: {
+      marginLeft: 10,
+      marginRight: 10,
+      flex: 1,
+    },
+
+    eventListItem: {
+      flex: 0.20,
+      flexDirection: "column",
+      marginBottom: 20,
+    },
+
+    eventListItemTitleContainer: {
+      flex: 0.7,
+      flexDirection: "row",
+    },
+
+    eventListItemDateContainer: {
+      flexDirection: "row-reverse",
+      flex: 0.3,
+    },
+
+    eventListItemContentContainer: {
+      flexDirection: "row",
+      marginBottom: 10,
+    },
+
+    eventListItemTitle: {
+      fontSize: 20,
+      fontWeight: "bold",
+
+    },
+
+    eventListItemDate: {
+      marginBottom: 0,
+
+    },
+
+    eventListItemDescription: {
+      flex: .8,
+      flexDirection: "row",
+    },
+
+    eventListItemThumbnail: {
+      flex: 0.2,
+      flexDirection: "row",
+      justifyContent: "center",
+    },
 
     headerText: {
         fontSize: 40,
-        marginLeft: 10,
+        marginLeft: 5,
         fontWeight: "bold",
-        flex: 0.95,
+        flex: .9,
         flexDirection: 'row',
-     },
+    },
+    
+    refreshIcon: {
+      flex: 0.1,
+      flexDirection: "row-reverse",
+      margin: 10,
+    },
 
     text: {
         fontFamily: 'sans-serif-light',

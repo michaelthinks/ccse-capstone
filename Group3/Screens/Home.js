@@ -5,7 +5,7 @@ import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { globalStyles } from '../styles/styles.js';
-import { Events } from '../Screens/Screen1';
+import { EventsList } from '../Screens/EventsList.js';
 
 export default class Home extends Component {
     render() {
