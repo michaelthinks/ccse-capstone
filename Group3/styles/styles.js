@@ -51,7 +51,7 @@ export const globalStyles = StyleSheet.create({
 
     eventListItemDate: {
       marginBottom: 0,
-
+      justifyContent: 'center',
     },
 
     eventListItemDescription: {
@@ -63,6 +63,8 @@ export const globalStyles = StyleSheet.create({
       flex: 0.2,
       flexDirection: "row",
       justifyContent: "center",
+      justifyContent: 'center',
+      alignItems: 'center'
     },
 
     headerText: {
@@ -121,5 +123,21 @@ export const globalStyles = StyleSheet.create({
         flex: 0.10, 
         flexDirection: 'row',
         alignItems: 'center',
+      },
+
+      menuIcon: {
+        marginLeft: 8,
+      },
+
+      homeMenuIcon: {
+        marginTop: 20,
+        marginLeft: 8
+      },
+
+      likeEventIcon: {
+        marginLeft: 8,
+        marginRight: 8,
+        justifyContent: 'center',
+        alignItems: 'center'
       },
 })

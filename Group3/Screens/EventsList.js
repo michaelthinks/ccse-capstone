@@ -3,6 +3,9 @@ import React, { Component } from 'react';
 import { StyleSheet, FlatList, Text, View, ImageBackground, TouchableOpacity, Linking, Button, SafeAreaView, Image, SectionList, TouchableWithoutFeedback } from 'react-native';
 import { globalStyles } from '../styles/styles.js';
 import { ScrollView } from 'react-native-gesture-handler';
+import { NavigationContainer, DrawerActions } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import eventData from '../TestData/testData.json';
 
 export default class EventsList extends Component {
@@ -12,6 +15,11 @@ export default class EventsList extends Component {
         alert("Event Selected!");
     }
 
+    likeEvent() {
+        // This is a dummy function for now - it will foward to a function to like an event
+        alert("Event Liked!");
+    }
+
     render() {
         // This function is used to render each individual event item
         // It is called by the FlatList renderItem property below
@@ -19,27 +27,32 @@ export default class EventsList extends Component {
         // "touchable" - ie. you press it and it goes to the event
         const renderEventItem = ({item}) => (
             
-            <View key={"event" + item.EventId} style={globalStyles.eventListItemHeaderContainer}>
+            <View key={item} style={globalStyles.eventListItemHeaderContainer}>
 
-                <TouchableWithoutFeedback onPress={(this.goToEvent)}>
-                    <View style={globalStyles.eventListItemTitleContainer}>
-                        <Text style={globalStyles.eventListItemTitle}>{item.EventName}</Text>    
+                <TouchableWithoutFeedback key={item + "TitleContainer"} onPress={(this.goToEvent)}>
+                    <View key={item + "Title"} style={globalStyles.eventListItemTitleContainer}>
+                        <Text key={item + "TitleText"} style={globalStyles.eventListItemTitle}>{item.EventName}</Text>    
                     </View>
                 </TouchableWithoutFeedback>
-                <View style={globalStyles.eventListItemDateContainer}>
-                    <Text style={globalStyles.eventListItemDate}>{item.EventDate}</Text>
+                <View key={item + "DateContainer"} style={globalStyles.eventListItemDateContainer}>
+                    <Text key={item + "DateText"} style={globalStyles.eventListItemDate}>{item.EventDate}</Text>
                 </View>
                 
                 
-                <View style={globalStyles.eventListItemContentContainer}>
-                    <TouchableWithoutFeedback onPress={(this.goToEvent)}>
-                        <View style={globalStyles.eventListItemThumbnail}>
-                            <Image source={require('../assets/testthumbnail.jpg')} />
+                <View key={item + "ContentContainer"} style={globalStyles.eventListItemContentContainer}>
+                    <TouchableWithoutFeedback key={item + "ThumbnailContainer"} onPress={(this.goToEvent)}>
+                        <View key={item + "Thumbnail"} style={globalStyles.eventListItemThumbnail}>
+                            <Image key={item + "ThumbnailImage"} source={require('../assets/testthumbnail.jpg')} />
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback onPress={(this.goToEvent)}>
-                        <View style={globalStyles.eventListItemDescription}>
-                            <Text numberOfLines={5}>{item.EventDescription}</Text>
+                    <TouchableWithoutFeedback key={item + "DescriptionContainer"} onPress={(this.goToEvent)}>
+                        <View key={item + "Description"} style={globalStyles.eventListItemDescription}>
+                            <Text key={item + "DescriptionText"} numberOfLines={5}>{item.EventDescription}</Text>
+                        </View>
+                    </TouchableWithoutFeedback>
+                    <TouchableWithoutFeedback key={item + "LikeContainer"} onPress={(this.likeEvent)}>
+                        <View key={item + "Like"} style={globalStyles.likeEventIcon}>
+                            <Image key={item + "LikeImage"} source={require('../assets/likeIcon.png')}></Image>
                         </View>
                     </TouchableWithoutFeedback>
                 </View>
@@ -57,7 +70,11 @@ export default class EventsList extends Component {
                     {/* This contains the header - title and refresh icon */}
                     
                     <View style={globalStyles.headerContainer}>
-                        
+                        <TouchableWithoutFeedback onPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}>
+                            <View style={globalStyles.menuIcon}>
+                                <Image source={require('../assets/menu.png')} />
+                            </View>
+                        </TouchableWithoutFeedback>
                         <View style={globalStyles.headerText}>
                             <Text style={globalStyles.headerText}>CCSE Events</Text>
                         </View>
@@ -74,7 +91,7 @@ export default class EventsList extends Component {
                         <FlatList
                             data={eventData}
                             renderItem={renderEventItem}
-                            keyExtractor={item => {eventData.EventId}}
+                            keyExtractor={item => { return eventData.EventId }}
                             style={globalStyles.eventList}
                             
                         />
