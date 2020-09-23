@@ -7,7 +7,7 @@ import { createDrawerNavigator } from '@react-navigation/drawer';
 import { globalStyles } from './styles/styles.js';
 
 //Importing different screens
-import Events from './Screens/Screen1';
+import EventsList from './Screens/EventsList';
 import Home from './Screens/Home';
 
 //used to set up Drawer and Stack Navigators
@@ -20,7 +20,6 @@ export default class App extends Component {
 
     return (
       <View style={globalStyles.container}>
-        <StatusBar hidden={true} />
         <ImageBackground source= {require( "../Group3/assets/KSU.jpg" )} style={{ width: '100%', height: '100%'}}>
 
           {/* This block of code is used to set set up the drawers on the main page of the app
@@ -28,7 +27,7 @@ export default class App extends Component {
           <NavigationContainer>
             <Drawer.Navigator>
               <Drawer.Screen name = "Home" component = {Home} />
-              <Drawer.Screen name = "Events" component = {Events} />
+              <Drawer.Screen name = "Events" component = {EventsList} />
             </Drawer.Navigator>
           </NavigationContainer> 
 
@@ -37,3 +36,5 @@ export default class App extends Component {
     );
   }
 }
+
+
