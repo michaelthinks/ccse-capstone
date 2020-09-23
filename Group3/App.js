@@ -9,6 +9,7 @@ import { globalStyles } from './styles/styles.js';
 //Importing different screens
 import EventsList from './Screens/EventsList';
 import Home from './Screens/Home';
+import EventDetails from './Screens/EventDetails';
 
 //used to set up Drawer and Stack Navigators
 const Drawer = createDrawerNavigator ();
@@ -28,6 +29,8 @@ export default class App extends Component {
             <Drawer.Navigator>
               <Drawer.Screen name = "Home" component = {Home} />
               <Drawer.Screen name = "Events" component = {EventsList} />
+              <Drawer.Screen name = "Events" component = {Events} />
+              <Drawer.Screen name = "EventsDetails" component = {EventDetails} />
             </Drawer.Navigator>
           </NavigationContainer> 
 
