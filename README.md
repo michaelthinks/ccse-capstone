@@ -7,3 +7,5 @@ I'm using VS Code to work on the project
 Extensions:
 React Native by Microsoft
 React Native/React/Redux Snippets by EQuimper
+
+Test
