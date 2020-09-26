@@ -91,7 +91,7 @@ export default class EventsList extends Component {
                         <FlatList
                             data={eventData}
                             renderItem={renderEventItem}
-                            keyExtractor={item => { return eventData.EventId }}
+                            keyExtractor={(item, index) => item.EventId}
                             style={globalStyles.eventList}
                             
                         />
