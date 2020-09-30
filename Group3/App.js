@@ -9,6 +9,7 @@ import { globalStyles } from './styles/styles.js';
 //Importing different screens
 import EventsList from './Screens/EventsList';
 import Home from './Screens/Home';
+import Maps from './Screens/Maps';
 import Settings from './Screens/Settings';
 
 //used to set up Drawer and Stack Navigators
@@ -16,6 +17,8 @@ const Drawer = createDrawerNavigator ();
 const Stack = createStackNavigator ();
 
 export default class App extends Component {
+
+
 
   render() {
 
@@ -29,6 +32,7 @@ export default class App extends Component {
             <Drawer.Navigator>
               <Drawer.Screen name = "Home" component = {Home} />
               <Drawer.Screen name = "Events" component = {EventsList} />
+              <Drawer.Screen name = "Campus Maps" component = {Maps} />
               <Drawer.Screen name = "Settings" component = {Settings} />
             </Drawer.Navigator>
           </NavigationContainer> 
