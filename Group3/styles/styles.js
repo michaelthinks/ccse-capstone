@@ -140,4 +140,80 @@ export const globalStyles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
       },
+
+      // The below styles are used for the maps screen
+      // The styles needed to be separated out due to the way the page
+      // displays the maps - the global styles above did not render
+      // correctly
+      mapsHeaderContainer: {
+        flex: .1,
+        flexDirection: 'row',
+        alignItems: 'flex-start'
+      },
+
+      mapsContentContainer: {
+        flex: .9,
+        flexDirection: 'column',
+        alignItems: 'stretch',
+        alignSelf: 'stretch',
+      },
+
+      mapsMenuIcon: {
+        marginTop:15,
+        marginLeft: 8
+      },
+
+      mapsHeaderText: {
+        fontSize: 40,
+        marginLeft: 5,
+        fontWeight: "bold",
+        justifyContent: "center",
+        marginTop: 4,
+      },
+
+      mapsButtonContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        alignSelf: 'center',
+        justifyContent: 'center',
+      },
+
+      mapsButton: {
+        margin: 15,
+        alignItems: 'center',
+        alignSelf: 'center',
+        fontSize: 30,
+      },
+
+      // Style for the buttons displayed on the home page
+      homePagecontainer: {
+        flex: 1,
+        backgroundColor: '#FFFFFF50',
+        alignItems: 'center',
+        justifyContent: 'center',
+        height: '100%',
+        paddingTop: ( Platform.OS === 'android' ) ? 0 : 0,
+        paddingBottom: 5,
+      },
+      
+      homePageContentContainer: {
+        flex: 0.90,
+        flexDirection: 'row',
+        alignItems: 'center'
+      },
+      
+      homePageButtonContainer: {
+        flex: 1,
+        flexDirection: 'column',
+        alignItems: 'center',
+        justifyContent: 'center'
+      },
+
+      homePageButton: {
+        margin: 15,
+        alignItems: 'center',
+        alignSelf: 'center',
+        fontSize: 30,
+      }
 })
