@@ -21,7 +21,7 @@
     "EventDate": "01-01-20",
     "EventImage": "https://localist-images.azureedge.net/photos/32139136800987/small/f8122f4cd64268b65020c9066822a72bb434a790.jpg",
     "EventDescription": "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book. It usually begins with:",
-    "Liked": true
+    "Liked": false
   },
   {
     "EventId": 3,
@@ -37,6 +37,6 @@
     "EventDate": "01-01-20",
     "EventImage": "https://localist-images.azureedge.net/photos/32139136800987/small/f8122f4cd64268b65020c9066822a72bb434a790.jpg",
     "EventDescription": "Lorem ipsum, or lipsum as it is sometimes known, is dummy text used in laying out print, graphic or web designs. The passage is attributed to an unknown typesetter in the 15th century who is thought to have scrambled parts of Cicero's De Finibus Bonorum et Malorum for use in a type specimen book. It usually begins with:",
-    "Liked": true
+    "Liked": false
   }
 ]

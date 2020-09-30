@@ -39,7 +39,6 @@ export default class App extends Component {
               <Drawer.Screen name="Home" component={Home} />
               <Drawer.Screen name="Events" component={EventsList} />
               <Drawer.Screen name="Liked Events" component={LikedEvents} />
-              <Drawer.Screen name="Settings" component={Settings} />
               <Drawer.Screen name="Campus Maps" component={Maps} />
               <Drawer.Screen name="Settings" component={Settings} />
             </Drawer.Navigator>
