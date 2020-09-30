@@ -150,8 +150,5 @@ export default class LikedEvents extends Component {
           </View>
         </SafeAreaView>
       );
-
-      //Else statement here
     }
   }
-}
