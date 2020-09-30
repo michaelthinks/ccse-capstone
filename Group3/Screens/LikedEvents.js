@@ -34,81 +34,84 @@ export default class LikedEvents extends Component {
 
   render() {
       const renderEventItem = ({ item }) => (
-        {item.Liked &&
-        <View key={item} style={globalStyles.eventListItemHeaderContainer}>
-          <TouchableWithoutFeedback
-            key={item + "TitleContainer"}
-            onPress={this.goToEvent}
-          >
-            <View
-              key={item + "Title"}
-              style={globalStyles.eventListItemTitleContainer}
-            >
-              <Text
-                key={item + "TitleText"}
-                style={globalStyles.eventListItemTitle}
-              >
-                {item.EventName}
-              </Text>
-            </View>
-          </TouchableWithoutFeedback>
-          <View
-            key={item + "DateContainer"}
-            style={globalStyles.eventListItemDateContainer}
-          >
-            <Text
-              key={item + "DateText"}
-              style={globalStyles.eventListItemDate}
-            >
-              {item.EventDate}
-            </Text>
-          </View>
-
-          <View
-            key={item + "ContentContainer"}
-            style={globalStyles.eventListItemContentContainer}
-          >
+        
+        <View key={item}>
+          {item.Liked &&
+          <View style={globalStyles.eventListItemHeaderContainer}>
             <TouchableWithoutFeedback
-              key={item + "ThumbnailContainer"}
+              key={item + "TitleContainer"}
               onPress={this.goToEvent}
             >
               <View
-                key={item + "Thumbnail"}
-                style={globalStyles.eventListItemThumbnail}
+                key={item + "Title"}
+                style={globalStyles.eventListItemTitleContainer}
               >
-                <Image
-                  key={item + "ThumbnailImage"}
-                  source={require("../assets/testthumbnail.jpg")}
-                />
-              </View>
-            </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              key={item + "DescriptionContainer"}
-              onPress={this.goToEvent}
-            >
-              <View
-                key={item + "Description"}
-                style={globalStyles.eventListItemDescription}
-              >
-                <Text key={item + "DescriptionText"} numberOfLines={5}>
-                  {item.EventDescription}
+                <Text
+                  key={item + "TitleText"}
+                  style={globalStyles.eventListItemTitle}
+                >
+                  {item.EventName}
                 </Text>
               </View>
             </TouchableWithoutFeedback>
-            <TouchableWithoutFeedback
-              key={item + "LikeContainer"}
-              onPress={this.likeEvent}
+            <View
+              key={item + "DateContainer"}
+              style={globalStyles.eventListItemDateContainer}
             >
-              <View key={item + "Like"} style={globalStyles.likeEventIcon}>
-                <Image
-                  key={item + "LikeImage"}
-                  source={require("../assets/likeIcon.png")}
-                ></Image>
-              </View>
-            </TouchableWithoutFeedback>
+              <Text
+                key={item + "DateText"}
+                style={globalStyles.eventListItemDate}
+              >
+                {item.EventDate}
+              </Text>
+            </View>
+
+            <View
+              key={item + "ContentContainer"}
+              style={globalStyles.eventListItemContentContainer}
+            >
+              <TouchableWithoutFeedback
+                key={item + "ThumbnailContainer"}
+                onPress={this.goToEvent}
+              >
+                <View
+                  key={item + "Thumbnail"}
+                  style={globalStyles.eventListItemThumbnail}
+                >
+                  <Image
+                    key={item + "ThumbnailImage"}
+                    source={require("../assets/testthumbnail.jpg")}
+                  />
+                </View>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback
+                key={item + "DescriptionContainer"}
+                onPress={this.goToEvent}
+              >
+                <View
+                  key={item + "Description"}
+                  style={globalStyles.eventListItemDescription}
+                >
+                  <Text key={item + "DescriptionText"} numberOfLines={5}>
+                    {item.EventDescription}
+                  </Text>
+                </View>
+              </TouchableWithoutFeedback>
+              <TouchableWithoutFeedback
+                key={item + "LikeContainer"}
+                onPress={this.likeEvent}
+              >
+                <View key={item + "Like"} style={globalStyles.likeEventIcon}>
+                  <Image
+                    key={item + "LikeImage"}
+                    source={require("../assets/likeIcon.png")}
+                  ></Image>
+                </View>
+              </TouchableWithoutFeedback>
+            </View>
           </View>
+          }
         </View>
-        }
       );
 
       return (
