@@ -34,120 +34,124 @@ export default class LikedEvents extends Component {
 
   render() {
     //If statement here
-
-    const renderEventItem = ({ item }) => (
-      <View key={item} style={globalStyles.eventListItemHeaderContainer}>
-        <TouchableWithoutFeedback
-          key={item + "TitleContainer"}
-          onPress={this.goToEvent}
-        >
-          <View
-            key={item + "Title"}
-            style={globalStyles.eventListItemTitleContainer}
-          >
-            <Text
-              key={item + "TitleText"}
-              style={globalStyles.eventListItemTitle}
-            >
-              {item.EventName}
-            </Text>
-          </View>
-        </TouchableWithoutFeedback>
-        <View
-          key={item + "DateContainer"}
-          style={globalStyles.eventListItemDateContainer}
-        >
-          <Text key={item + "DateText"} style={globalStyles.eventListItemDate}>
-            {item.EventDate}
-          </Text>
-        </View>
-
-        <View
-          key={item + "ContentContainer"}
-          style={globalStyles.eventListItemContentContainer}
-        >
+    if (eventData.Liked == true) {
+      const renderEventItem = ({ item }) => (
+        <View key={item} style={globalStyles.eventListItemHeaderContainer}>
           <TouchableWithoutFeedback
-            key={item + "ThumbnailContainer"}
+            key={item + "TitleContainer"}
             onPress={this.goToEvent}
           >
             <View
-              key={item + "Thumbnail"}
-              style={globalStyles.eventListItemThumbnail}
+              key={item + "Title"}
+              style={globalStyles.eventListItemTitleContainer}
             >
-              <Image
-                key={item + "ThumbnailImage"}
-                source={require("../assets/testthumbnail.jpg")}
-              />
-            </View>
-          </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback
-            key={item + "DescriptionContainer"}
-            onPress={this.goToEvent}
-          >
-            <View
-              key={item + "Description"}
-              style={globalStyles.eventListItemDescription}
-            >
-              <Text key={item + "DescriptionText"} numberOfLines={5}>
-                {item.EventDescription}
+              <Text
+                key={item + "TitleText"}
+                style={globalStyles.eventListItemTitle}
+              >
+                {item.EventName}
               </Text>
             </View>
           </TouchableWithoutFeedback>
-          <TouchableWithoutFeedback
-            key={item + "LikeContainer"}
-            onPress={this.likeEvent}
+          <View
+            key={item + "DateContainer"}
+            style={globalStyles.eventListItemDateContainer}
           >
-            <View key={item + "Like"} style={globalStyles.likeEventIcon}>
-              <Image
-                key={item + "LikeImage"}
-                source={require("../assets/likeIcon.png")}
-              ></Image>
-            </View>
-          </TouchableWithoutFeedback>
-        </View>
-      </View>
-    );
-
-    return (
-      <SafeAreaView style={globalStyles.mainContainer}>
-        <StatusBar style="auto" hidden={false} />
-
-        <View style={globalStyles.headerContainer}>
-          <TouchableWithoutFeedback
-            onPress={() =>
-              this.props.navigation.dispatch(DrawerActions.openDrawer())
-            }
-          >
-            <View style={globalStyles.menuIcon}>
-              <Image source={require("../assets/menu.png")} />
-            </View>
-          </TouchableWithoutFeedback>
-          <View style={globalStyles.headerText}>
-            <Text style={globalStyles.headerText}>CCSE Events</Text>
+            <Text
+              key={item + "DateText"}
+              style={globalStyles.eventListItemDate}
+            >
+              {item.EventDate}
+            </Text>
           </View>
 
-          <TouchableWithoutFeedback
-            onPress={() => this.setState({ updateCount: "0" })}
+          <View
+            key={item + "ContentContainer"}
+            style={globalStyles.eventListItemContentContainer}
           >
-            <View style={globalStyles.refreshIcon}>
-              <Image source={require("../assets/refreshicon.png")} />
+            <TouchableWithoutFeedback
+              key={item + "ThumbnailContainer"}
+              onPress={this.goToEvent}
+            >
+              <View
+                key={item + "Thumbnail"}
+                style={globalStyles.eventListItemThumbnail}
+              >
+                <Image
+                  key={item + "ThumbnailImage"}
+                  source={require("../assets/testthumbnail.jpg")}
+                />
+              </View>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback
+              key={item + "DescriptionContainer"}
+              onPress={this.goToEvent}
+            >
+              <View
+                key={item + "Description"}
+                style={globalStyles.eventListItemDescription}
+              >
+                <Text key={item + "DescriptionText"} numberOfLines={5}>
+                  {item.EventDescription}
+                </Text>
+              </View>
+            </TouchableWithoutFeedback>
+            <TouchableWithoutFeedback
+              key={item + "LikeContainer"}
+              onPress={this.likeEvent}
+            >
+              <View key={item + "Like"} style={globalStyles.likeEventIcon}>
+                <Image
+                  key={item + "LikeImage"}
+                  source={require("../assets/likeIcon.png")}
+                ></Image>
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
+        </View>
+      );
+
+      return (
+        <SafeAreaView style={globalStyles.mainContainer}>
+          <StatusBar style="auto" hidden={false} />
+
+          <View style={globalStyles.headerContainer}>
+            <TouchableWithoutFeedback
+              onPress={() =>
+                this.props.navigation.dispatch(DrawerActions.openDrawer())
+              }
+            >
+              <View style={globalStyles.menuIcon}>
+                <Image source={require("../assets/menu.png")} />
+              </View>
+            </TouchableWithoutFeedback>
+            <View style={globalStyles.headerText}>
+              <Text style={globalStyles.headerText}>CCSE Events</Text>
             </View>
-          </TouchableWithoutFeedback>
-        </View>
 
-        <View style={globalStyles.contentContainer}>
-          <FlatList
-            data={eventData}
-            renderItem={renderEventItem}
-            keyExtractor={(item) => {
-              return eventData.EventId;
-            }}
-            style={globalStyles.eventList}
-          />
-        </View>
-      </SafeAreaView>
-    );
+            <TouchableWithoutFeedback
+              onPress={() => this.setState({ updateCount: "0" })}
+            >
+              <View style={globalStyles.refreshIcon}>
+                <Image source={require("../assets/refreshicon.png")} />
+              </View>
+            </TouchableWithoutFeedback>
+          </View>
 
-    //Else statement here
+          <View style={globalStyles.contentContainer}>
+            <FlatList
+              data={eventData}
+              renderItem={renderEventItem}
+              keyExtractor={(item) => {
+                return eventData.EventId;
+              }}
+              style={globalStyles.eventList}
+            />
+          </View>
+        </SafeAreaView>
+      );
+
+      //Else statement here
+    }
   }
 }
