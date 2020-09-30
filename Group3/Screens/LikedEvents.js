@@ -33,9 +33,8 @@ export default class LikedEvents extends Component {
   }
 
   render() {
-    //If statement here
-    if (eventData.Liked == true) {
       const renderEventItem = ({ item }) => (
+        {item.Liked &&
         <View key={item} style={globalStyles.eventListItemHeaderContainer}>
           <TouchableWithoutFeedback
             key={item + "TitleContainer"}
@@ -109,6 +108,7 @@ export default class LikedEvents extends Component {
             </TouchableWithoutFeedback>
           </View>
         </View>
+        }
       );
 
       return (
