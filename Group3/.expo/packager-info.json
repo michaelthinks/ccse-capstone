@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 {
   "devToolsPort": 19002,
   "expoServerPort": 19000,
@@ -7,4 +8,19 @@
 }
 =======
 {}
+>>>>>>> master
+=======
+{}
+=======
+{
+  "devToolsPort": 19002,
+  "expoServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+  "expoServerNgrokUrl": null,
+  "packagerNgrokUrl": null,
+  "ngrokPid": null,
+  "webpackServerPort": null
+}
+>>>>>>> 65c39cc6572dad987cfc801fa3ea7519f65f8978
 >>>>>>> master
