@@ -52,13 +52,13 @@ export default class Maps extends Component {
                     alignment issues */}
                     {!this.state.mariettaImage && !this.state.kennesawImage &&
 
-                            <View style={globalStyles.mapsHeaderContainer}>
+                            <View style={globalStyles.adjustedHeaderContainer}>
                                 <TouchableWithoutFeedback onPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}>
-                                    <View style={globalStyles.mapsMenuIcon}>
+                                    <View style={globalStyles.adjustedMenuIcon}>
                                         <Image source={require('../assets/menu.png')} />
                                     </View>
                                 </TouchableWithoutFeedback>
-                                <View style={globalStyles.mapsHeaderText}>
+                                <View style={globalStyles.adjustedHeaderText}>
                                     <Text style={globalStyles.headerText}>Campus Maps</Text>
                                 </View>
 
@@ -67,7 +67,7 @@ export default class Maps extends Component {
                     }
                     {/* See above notes on this expression/view */}        
                     {!this.state.mariettaImage && !this.state.kennesawImage &&
-                            <View style={globalStyles.mapsContentContainer}>
+                            <View style={globalStyles.adjustedContentContainer}>
                                     <View style={globalStyles.mapsButtonContainer}>
                                         <View style={globalStyles.mapsButton}>
 
