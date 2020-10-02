@@ -14,5 +14,4 @@ web-build/
 .DS_Store
 
 # ignore the package and package lock files
-package.json
 package-lock.json
