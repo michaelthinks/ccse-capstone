@@ -129,7 +129,7 @@ export default class LikedEvents extends Component {
               </View>
             </TouchableWithoutFeedback>
             <View style={globalStyles.headerText}>
-              <Text style={globalStyles.headerText}>CCSE Events</Text>
+              <Text style={globalStyles.headerText}>Liked Events</Text>
             </View>
 
             <TouchableWithoutFeedback
@@ -145,9 +145,7 @@ export default class LikedEvents extends Component {
             <FlatList
               data={eventData}
               renderItem={renderEventItem}
-              keyExtractor={(item) => {
-                return eventData.EventId;
-              }}
+              keyExtractor={(item, index) => item.EventId}
               style={globalStyles.eventList}
             />
           </View>

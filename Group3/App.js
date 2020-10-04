@@ -7,6 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Linking,
+  AsyncStorage,
 } from "react-native";
 import { NavigationContainer, DrawerActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -31,11 +32,29 @@ import Maps from "./Screens/Maps";
 import Settings from "./Screens/Settings";
 >>>>>>> master
 
+// Import test data
+import eventTestDataFile from './TestData/testData.json';
+
 //used to set up Drawer and Stack Navigators
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 export default class App extends Component {
+
+  // Constructor for the app - this is the intialization code for the application
+  // The code to retrieve the data, save it to a JSON object will be performed here
+  // It will be performed when the app is first opened OR we can force refresh it (will implement later)
+  // constructor(props) {
+  //   super(props);
+  //   this.saveEventData();
+  // }
+
+  // // This function refreshes the event (gathers data from website, stores it in asyncstorage)
+  // async saveEventData() {
+  //   // Note this is using dummy data for the time being!
+  //   AsyncStorage.setItem('events', JSON.stringify(eventTestDataFile));
+  // }
+
   render() {
     return (
       <View style={globalStyles.container}>

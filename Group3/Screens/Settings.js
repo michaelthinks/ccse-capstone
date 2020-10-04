@@ -35,140 +35,133 @@ export default class EventsList extends Component {
       <SafeAreaView style={globalStyles.mainContainer}>
         <StatusBar style="auto" hidden={false} />
 
-        <View style={globalStyles.headerContainer}>
-          <TouchableWithoutFeedback
-            onPress={() =>
-              this.props.navigation.dispatch(DrawerActions.openDrawer())
-            }
-          >
-            <View style={globalStyles.menuIcon}>
-              <Image source={require("../assets/menu.png")} />
-            </View>
+        <View style={globalStyles.adjustedHeaderContainer}>
+          <TouchableWithoutFeedback onPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}>
+              <View style={globalStyles.adjustedMenuIcon}>
+                  <Image source={require('../assets/menu.png')} />
+              </View>
           </TouchableWithoutFeedback>
-
-          <View>
-            <Text style={globalStyles.headerText}>Settings</Text>
+          <View style={globalStyles.adjustedHeaderText}>
+              <Text style={globalStyles.headerText}>Settings</Text>
           </View>
-        </View>
 
-        {/* View below provides a buffer space between the heading and the switches. Otherwise  */}
-        <View
-          style={{
-            height: 40,
-            width: "100%",
-          }}
-        />
+      </View>
 
-        <View
-          style={{
-            flexDirection: "row",
-          }}
-        >
+        
+      <View style={globalStyles.contentContainer}>
+        <View style={{flexDirection: "column"}}>
           <View
             style={{
-              height: 100,
-              width: "75%",
-              paddingLeft: 15,
+              flexDirection: "row",
             }}
           >
-            <Text
+            <View
               style={{
-                fontWeight: "bold",
+                height: 100,
+                width: "75%",
+                paddingLeft: 15,
               }}
             >
-              Receiving notifications for like events{" "}
-            </Text>
-            <Text>{this.state.likedEventsSwitch ? "On" : "Off"}</Text>
-          </View>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                }}
+              >
+                Receiving notifications for like events{" "}
+              </Text>
+              <Text>{this.state.likedEventsSwitch ? "On" : "Off"}</Text>
+            </View>
 
-          <View
-            style={{
-              height: 100,
-              width: "25%",
-              paddingRight: 15,
-            }}
-          >
-            <Switch
-              value={this.state.likedEventsSwitch}
-              onValueChange={(likedEventsSwitch) => this.setState({ likedEventsSwitch })
-              }
-            />
-          </View>
-        </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-          }}
-        >
-          <View
-            style={{
-              height: 100,
-              width: "75%",
-              paddingLeft: 15,
-            }}
-          >
-            <Text
+            <View
               style={{
-                fontWeight: "bold",
+                height: 100,
+                width: "25%",
+                paddingRight: 15,
               }}
             >
-              Receive notification for new events
-            </Text>
-            <Text>{this.state.newEventsSwitch ? "On" : "Off"}</Text>
+              <Switch
+                value={this.state.likedEventsSwitch}
+                onValueChange={(likedEventsSwitch) => this.setState({ likedEventsSwitch })
+                }
+              />
+            </View>
           </View>
 
           <View
             style={{
-              height: 100,
-              width: "25%",
-              paddingRight: 15,
+              flexDirection: "row",
             }}
           >
-            <Switch
-              value={this.state.newEventsSwitch}
-              onValueChange={(newEventsSwitch) => this.setState({ newEventsSwitch })
-              }
-            />
-          </View>
-        </View>
-
-        <View
-          style={{
-            flexDirection: "row",
-          }}
-        >
-          <View
-            style={{
-              height: 100,
-              width: "75%",
-              paddingLeft: 15,
-            }}
-          >
-            <Text
+            <View
               style={{
-                fontWeight: "bold",
+                height: 100,
+                width: "75%",
+                paddingLeft: 15,
               }}
             >
-              Receive events notifications via SMS
-            </Text>
-            <Text>{this.state.SMSSwitch ? "On" : "Off"}</Text>
+              <Text
+                style={{
+                  fontWeight: "bold",
+                }}
+              >
+                Receive notification for new events
+              </Text>
+              <Text>{this.state.newEventsSwitch ? "On" : "Off"}</Text>
+            </View>
+
+            <View
+              style={{
+                height: 100,
+                width: "25%",
+                paddingRight: 15,
+              }}
+            >
+              <Switch
+                value={this.state.newEventsSwitch}
+                onValueChange={(newEventsSwitch) => this.setState({ newEventsSwitch })
+                }
+              />
+            </View>
           </View>
 
           <View
             style={{
-              height: 100,
-              width: "25%",
-              paddingRight: 15,
+              flexDirection: "row",
             }}
           >
-            <Switch
-              value={this.state.SMSSwitch}
-              onValueChange={(SMSSwitch) => this.setState({ SMSSwitch })}
-            />
+            <View
+              style={{
+                height: 100,
+                width: "75%",
+                paddingLeft: 15,
+              }}
+            >
+              <Text
+                style={{
+                  fontWeight: "bold",
+                }}
+              >
+                Receive events notifications via SMS
+              </Text>
+              <Text>{this.state.SMSSwitch ? "On" : "Off"}</Text>
+            </View>
+
+            <View
+              style={{
+                height: 100,
+                width: "25%",
+                paddingRight: 15,
+              }}
+            >
+              <Switch
+                value={this.state.SMSSwitch}
+                onValueChange={(SMSSwitch) => this.setState({ SMSSwitch })}
+              />
+            </View>
           </View>
         </View>
-      </SafeAreaView>
+      </View>
+    </SafeAreaView>
     );
   }
 }
