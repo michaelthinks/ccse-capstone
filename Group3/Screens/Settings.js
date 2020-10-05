@@ -27,7 +27,8 @@ export default class EventsList extends Component {
   state = {
     likedEventsSwitch: false,
     newEventsSwitch: false,
-    SMSSwitch: false,
+    SMSSwitch: true,
+    darkTheme: false,
   };
 
   render() {
@@ -69,7 +70,7 @@ export default class EventsList extends Component {
               >
                 Receiving notifications for like events{" "}
               </Text>
-              <Text>{this.state.likedEventsSwitch ? "On" : "Off"}</Text>
+              <Text>{this.state.likedEventsSwitch ? "Enabled" : "Disabled"}</Text>
             </View>
 
             <View
@@ -106,7 +107,7 @@ export default class EventsList extends Component {
               >
                 Receive notification for new events
               </Text>
-              <Text>{this.state.newEventsSwitch ? "On" : "Off"}</Text>
+              <Text>{this.state.newEventsSwitch ? "Enabled" : "Disabled"}</Text>
             </View>
 
             <View
@@ -143,7 +144,7 @@ export default class EventsList extends Component {
               >
                 Receive events notifications via SMS
               </Text>
-              <Text>{this.state.SMSSwitch ? "On" : "Off"}</Text>
+              <Text>{this.state.SMSSwitch ? "Enabled" : "Disabled"}</Text>
             </View>
 
             <View
@@ -159,6 +160,44 @@ export default class EventsList extends Component {
               />
             </View>
           </View>
+
+
+          <View
+            style={{
+              flexDirection: "row",
+            }}
+          >
+            <View
+              style={{
+                height: 100,
+                width: "75%",
+                paddingLeft: 15,
+              }}
+            >
+              <Text
+                style={{
+                  fontWeight: "bold",
+                }}
+              >
+                Dark Theme
+              </Text>
+              <Text>{this.state.darkTheme ? "On" : "Off"}</Text>
+            </View>
+
+            <View
+              style={{
+                height: 100,
+                width: "25%",
+                paddingRight: 15,
+              }}
+            >
+              <Switch
+                value={this.state.darkTheme}
+                onValueChange={(darkTheme) => this.setState({ darkTheme })}
+              />
+            </View>
+          </View>
+
         </View>
       </View>
     </SafeAreaView>
