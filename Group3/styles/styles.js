@@ -141,29 +141,30 @@ export const globalStyles = StyleSheet.create({
         alignItems: 'center'
       },
 
-      // The below styles are used for the maps screen
+      // The below styles are used for the maps and settings screen
+      // maps styles are specific to the maps screen!
       // The styles needed to be separated out due to the way the page
       // displays the maps - the global styles above did not render
       // correctly
-      mapsHeaderContainer: {
+      adjustedHeaderContainer: {
         flex: .1,
         flexDirection: 'row',
         alignItems: 'flex-start'
       },
 
-      mapsContentContainer: {
+      adjustedContentContainer: {
         flex: .9,
         flexDirection: 'column',
         alignItems: 'stretch',
         alignSelf: 'stretch',
       },
 
-      mapsMenuIcon: {
+      adjustedMenuIcon: {
         marginTop:15,
         marginLeft: 8
       },
 
-      mapsHeaderText: {
+      adjustedHeaderText: {
         fontSize: 40,
         marginLeft: 5,
         fontWeight: "bold",

@@ -1,12 +1,14 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, Text, View, ImageBackground, TouchableOpacity, Linking, Button, SafeAreaView, Image, SectionList, TouchableWithoutFeedback } from 'react-native';
+import { AsyncStorage, StyleSheet, FlatList, Text, View, ImageBackground, TouchableOpacity, Linking, Button, SafeAreaView, Image, SectionList, TouchableWithoutFeedback } from 'react-native';
 import { globalStyles } from '../styles/styles.js';
 import { ScrollView } from 'react-native-gesture-handler';
 import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import eventData from '../TestData/testData.json';
+
+//const eventData = JSON.parse(AsyncStorage.getItem('events'));
 
 export default class EventsList extends Component {
     
