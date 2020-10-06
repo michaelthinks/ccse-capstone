@@ -22,6 +22,7 @@ import { NavigationContainer, DrawerActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import eventData from "../TestData/testData.json";
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class EventsList extends Component {
   state = {
@@ -31,7 +32,11 @@ export default class EventsList extends Component {
     darkTheme: false,
   };
 
+  
+
   render() {
+
+  
     return (
       <SafeAreaView style={globalStyles.mainContainer}>
         <StatusBar style="auto" hidden={false} />
@@ -82,8 +87,11 @@ export default class EventsList extends Component {
             >
               <Switch
                 value={this.state.likedEventsSwitch}
-                onValueChange={(likedEventsSwitch) => this.setState({ likedEventsSwitch })
+                onValueChange={
+                  (likedEventsSwitch) => this.setState({ likedEventsSwitch }),
+                  save()
                 }
+                
               />
             </View>
           </View>
@@ -202,5 +210,13 @@ export default class EventsList extends Component {
       </View>
     </SafeAreaView>
     );
+  }
+}
+
+const save = async () => {
+  try {
+      await AsyncStorage.setItem('likedEventsSwitch', JSON.stringify(true));
+  } catch (err) {
+      alert(err)
   }
 }
