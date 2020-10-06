@@ -88,8 +88,7 @@ export default class EventsList extends Component {
               <Switch
                 value={this.state.likedEventsSwitch}
                 onValueChange={
-                  (likedEventsSwitch) => this.setState({ likedEventsSwitch }),
-                  save()
+                  (likedEventsSwitch) => this.setState({ likedEventsSwitch })
                 }
                 
               />
@@ -201,7 +200,10 @@ export default class EventsList extends Component {
             >
               <Switch
                 value={this.state.darkTheme}
-                onValueChange={(darkTheme) => this.setState({ darkTheme })}
+                onValueChange={
+                  (darkTheme) => this.setState({ darkTheme }),
+                  save(this.value)
+                }
               />
             </View>
           </View>
@@ -215,8 +217,12 @@ export default class EventsList extends Component {
 
 const save = async () => {
   try {
-      await AsyncStorage.setItem('likedEventsSwitch', JSON.stringify(true));
+      await AsyncStorage.setItem('darkTheme', JSON.stringify(true));
+      const value = await AsyncStorage.getItem('darkTheme');
+      const darkTheme = JSON.parse(value);
+      console.log(value);
   } catch (err) {
-      alert(err)
+      console.log(err);
   }
+
 }
