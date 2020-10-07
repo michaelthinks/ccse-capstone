@@ -217,10 +217,10 @@ export default class EventsList extends Component {
 
 const save = async () => {
   try {
-      await AsyncStorage.setItem('darkTheme', JSON.stringify(true));
-      const value = await AsyncStorage.getItem('darkTheme');
-      const darkTheme = JSON.parse(value);
-      console.log(value);
+      await AsyncStorage.setItem('temp', JSON.stringify(darkTheme));
+      const value = await AsyncStorage.getItem('temp');
+      const result = JSON.parse(value);
+      console.log(result);
   } catch (err) {
       console.log(err);
   }
