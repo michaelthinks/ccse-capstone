@@ -65,8 +65,6 @@ export default class App extends Component {
           {/* This block of code is used to set set up the drawers on the main page of the app
               and link each screen together. */}
           <NavigationContainer>
-            <Drawer.Navigator>
-<<<<<<< HEAD
             <Drawer.Navigator>'<Drawer.Navigator></Drawer.Navigator>
 
               <Drawer.Screen name = "Home" component = {Home} />
