@@ -67,22 +67,24 @@ export default class App extends Component {
           <NavigationContainer>
             <Drawer.Navigator>
 <<<<<<< HEAD
+            <Drawer.Navigator>'<Drawer.Navigator></Drawer.Navigator>
+
               <Drawer.Screen name = "Home" component = {Home} />
               <Drawer.Screen name = "Events" component = {EventsList} />
-<<<<<<< HEAD
+
               <Drawer.Screen name = "Events" component = {Events} />
               <Drawer.Screen name = "EventsDetails" component = {EventDetails} />
-=======
+
               <Drawer.Screen name = "Campus Maps" component = {Maps} />
               <Drawer.Screen name = "Settings" component = {Settings} />
->>>>>>> master
-=======
+
+
               <Drawer.Screen name="Home" component={Home} />
               <Drawer.Screen name="Events" component={EventsList} />
               <Drawer.Screen name="Liked Events" component={LikedEvents} />
               <Drawer.Screen name="Campus Maps" component={Maps} />
               <Drawer.Screen name="Settings" component={Settings} />
->>>>>>> master
+
             </Drawer.Navigator>
           </NavigationContainer>
         </ImageBackground>
