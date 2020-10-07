@@ -17,14 +17,11 @@ import { globalStyles } from "./styles/styles.js";
 //Importing different screens
 import EventsList from './Screens/EventsList';
 import Home from './Screens/Home';
-import EventDetails from './Screens/EventDetails';
+import EventDetails from './Screens/EventDetails.js';
 import Maps from './Screens/Maps';
 import Settings from './Screens/Settings';
-import EventsList from "./Screens/EventsList";
-import Home from "./Screens/Home";
 import LikedEvents from "./Screens/LikedEvents.js";
-import Maps from "./Screens/Maps";
-import Settings from "./Screens/Settings";
+
 
 // Import test data
 import eventTestDataFile from './TestData/testData.json';
@@ -59,23 +56,15 @@ export default class App extends Component {
           {/* This block of code is used to set set up the drawers on the main page of the app
               and link each screen together. */}
           <NavigationContainer>
-            <Drawer.Navigator>'<Drawer.Navigator></Drawer.Navigator>
+            <Drawer.Navigator>
 
               <Drawer.Screen name = "Home" component = {Home} />
               <Drawer.Screen name = "Events" component = {EventsList} />
-
-              <Drawer.Screen name = "Events" component = {Events} />
               <Drawer.Screen name = "EventsDetails" component = {EventDetails} />
-
               <Drawer.Screen name = "Campus Maps" component = {Maps} />
               <Drawer.Screen name = "Settings" component = {Settings} />
+              <Drawer.Screen name = "Liked Events" component={LikedEvents} />
 
-
-              <Drawer.Screen name="Home" component={Home} />
-              <Drawer.Screen name="Events" component={EventsList} />
-              <Drawer.Screen name="Liked Events" component={LikedEvents} />
-              <Drawer.Screen name="Campus Maps" component={Maps} />
-              <Drawer.Screen name="Settings" component={Settings} />
 
             </Drawer.Navigator>
           </NavigationContainer>
