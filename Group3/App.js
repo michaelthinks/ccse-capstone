@@ -15,22 +15,16 @@ import { createDrawerNavigator } from "@react-navigation/drawer";
 import { globalStyles } from "./styles/styles.js";
 
 //Importing different screens
-<<<<<<< HEAD
 import EventsList from './Screens/EventsList';
 import Home from './Screens/Home';
-<<<<<<< HEAD
 import EventDetails from './Screens/EventDetails';
-=======
 import Maps from './Screens/Maps';
 import Settings from './Screens/Settings';
->>>>>>> master
-=======
 import EventsList from "./Screens/EventsList";
 import Home from "./Screens/Home";
 import LikedEvents from "./Screens/LikedEvents.js";
 import Maps from "./Screens/Maps";
 import Settings from "./Screens/Settings";
->>>>>>> master
 
 // Import test data
 import eventTestDataFile from './TestData/testData.json';
