@@ -29,7 +29,7 @@ export default class EventsList extends Component {
     likedEventsSwitch: false,
     newEventsSwitch: false,
     SMSSwitch: true,
-    darkTheme: false,
+    darkTheme: true,
   };
 
   
@@ -200,22 +200,22 @@ export default class EventsList extends Component {
             >
               <Switch
                 value={this.state.darkTheme}
-                onValueChange={
-                  (darkTheme) => this.setState({ darkTheme }),
-                  save(this.value)
-                }
+                onValueChange={(darkTheme) => this.setState({ darkTheme }), doThis(this.darkTheme), doThis(this.value)}
+                //
               />
             </View>
           </View>
-
         </View>
       </View>
     </SafeAreaView>
     );
   }
 }
+const doThis = (prop) => {
+    console.log(prop)
+}
 
-const save = async () => {
+const save = async (prop) => {
   try {
       await AsyncStorage.setItem('temp', JSON.stringify(darkTheme));
       const value = await AsyncStorage.getItem('temp');
@@ -224,5 +224,4 @@ const save = async () => {
   } catch (err) {
       console.log(err);
   }
-
 }
