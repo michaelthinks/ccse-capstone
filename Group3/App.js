@@ -44,7 +44,15 @@ export default class App extends Component {
   //   AsyncStorage.setItem('events', JSON.stringify(eventTestDataFile));
   // }
 
+  loadEventData(dataUrl) {
+    var xmlData = fetch(dataUrl);
+
+  }
+
   render() {
+    
+    this.loadEventData();
+      
     return (
       <View style={globalStyles.container}>
         <ImageBackground
