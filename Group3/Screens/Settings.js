@@ -232,7 +232,7 @@ const getSwitchState = async (prop) => {
   try {
     const value = await AsyncStorage.getItem('result');
     if (value !== null) {
-      console.log(value);
+      console.log("get " + value);
     }else{
       console.log("empty")
     }
