@@ -223,20 +223,21 @@ const setSwitchState = async (prop) => {
   try {
       await AsyncStorage.setItem('result', JSON.stringify(prop));
       console.log("set " + prop);
-  } catch (err) {
-      alert("set" + err);
+  } catch (error) {
+      alert("set: " + error);
   }
 }
 
 const getSwitchState = async (prop) => {
   try {
     const value = await AsyncStorage.getItem('result');
+    const valueParsed = JSON.parse(value);
     if (value !== null) {
-      console.log("get " + value);
-    }else{
+      console.log("get: " + valueParsed);
+    } else {
       console.log("empty")
     }
-   } catch (err) {
-     alert("get " + err)
+   } catch (error) {
+     alert("get " + error)
    }
 }
