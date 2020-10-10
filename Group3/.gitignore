@@ -15,3 +15,4 @@ web-build/
 
 # ignore the package and package lock files
 package-lock.json
+yarn.lock

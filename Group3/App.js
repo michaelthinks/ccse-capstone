@@ -48,35 +48,15 @@ export default class App extends Component {
   //   AsyncStorage.setItem('events', JSON.stringify(eventTestDataFile));
   // }
 
+  loadEventData(dataUrl) {
+    var xmlData = fetch(dataUrl);
+
+  }
+
   render() {
-    const EVENT_STORAGE_KEY = '@save_events';
-
-    const App = () => {
-      const [events, setEvents] = useState(eventTestDataFile);
-    }
-
-    const saveEvents = async () => {
-      try {
-        await AsyncStorage.setItem(EVENT_STORAGE_KEY, events);
-        Alert.alert("Woo! saved");
-      } catch (e) {
-        Alert.alert("There was a booboo");
-      }
-    }
-
-    const readEvents = async () => {
-      try {
-        const getTheEvents = await AsyncStorage.getItem(EVENT_STORAGE_KEY);
-
-        if (getTheEvents !== null) {
-          setEvents(getTheEvents);
-        }
-        Alert.alert("woo, read!");
-      } catch (e) {
-        Alert.alert("there was a booboo");
-      }
-    }
-
+    
+    this.loadEventData();
+      
     return (
       <View style={globalStyles.container}>
         <ImageBackground
