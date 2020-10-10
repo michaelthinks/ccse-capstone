@@ -1,42 +1,32 @@
 import { StatusBar } from "expo-status-bar";
-import React, { Component } from "react";
+import React, { useState, Component } from "react";
 import {
-  useState,
-  StyleSheet,
-  FlatList,
+
   Text,
   View,
   Switch,
-  ImageBackground,
-  TouchableOpacity,
-  Linking,
-  Button,
   SafeAreaView,
   Image,
-  SectionList,
   TouchableWithoutFeedback,
 } from "react-native";
+
 import { globalStyles } from "../styles/styles.js";
-import { ScrollView } from "react-native-gesture-handler";
-import { NavigationContainer, DrawerActions } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
-import eventData from "../TestData/testData.json";
+import { DrawerActions } from "@react-navigation/native";
 import AsyncStorage from '@react-native-community/async-storage';
+
 
 export default class EventsList extends Component {
   state = {
     likedEventsSwitch: false,
     newEventsSwitch: false,
-    SMSSwitch: true,
-    darkTheme: true,
+    SMSSwitch: false,
+    darkTheme: false,
   };
 
-  
 
   render() {
 
-  
+   
     return (
       <SafeAreaView style={globalStyles.mainContainer}>
         <StatusBar style="auto" hidden={false} />
@@ -78,6 +68,8 @@ export default class EventsList extends Component {
               <Text>{this.state.likedEventsSwitch ? "Enabled" : "Disabled"}</Text>
             </View>
 
+
+
             <View
               style={{
                 height: 100,
@@ -87,10 +79,8 @@ export default class EventsList extends Component {
             >
               <Switch
                 value={this.state.likedEventsSwitch}
-                onValueChange={
-                  (likedEventsSwitch) => this.setState({ likedEventsSwitch })
+                onValueChange={printState(this.state.likedEventsSwitch), (likedEventsSwitch) => this.setState({ likedEventsSwitch })
                 }
-                
               />
             </View>
           </View>
@@ -126,11 +116,13 @@ export default class EventsList extends Component {
             >
               <Switch
                 value={this.state.newEventsSwitch}
-                onValueChange={(newEventsSwitch) => this.setState({ newEventsSwitch })
+                onValueChange={printState(this.state.newEventsSwitch), (newEventsSwitch) => this.setState({ newEventsSwitch })
                 }
               />
             </View>
           </View>
+
+
 
           <View
             style={{
@@ -163,7 +155,12 @@ export default class EventsList extends Component {
             >
               <Switch
                 value={this.state.SMSSwitch}
-                onValueChange={(SMSSwitch) => this.setState({ SMSSwitch })}
+                onValueChange={
+                  printState(this.state.SMSSwitch), 
+                  // setSwitchState(this.state.SMSSwitch),
+                  // getSwitchState(this.state.SMSSwitch),
+                  (SMSSwitch) => this.setState({ SMSSwitch })
+                }
               />
             </View>
           </View>
@@ -199,9 +196,15 @@ export default class EventsList extends Component {
               }}
             >
               <Switch
-                value={this.state.darkTheme}
-                onValueChange={(darkTheme) => this.setState({ darkTheme }), doThis(this.darkTheme), doThis(this.value)}
-                //
+                value={this.state.darkTheme}   
+                onValueChange={
+                  printState(this.state.darkTheme),
+                  setSwitchState(this.state.darkTheme),
+                  getSwitchState(this.state.darkTheme),
+                  (darkTheme) => this.setState({ darkTheme })
+
+
+                }
               />
             </View>
           </View>
@@ -211,17 +214,29 @@ export default class EventsList extends Component {
     );
   }
 }
-const doThis = (prop) => {
+
+const printState = (prop) => {
     console.log(prop)
 }
 
-const save = async (prop) => {
+const setSwitchState = async (prop) => {
   try {
-      await AsyncStorage.setItem('temp', JSON.stringify(darkTheme));
-      const value = await AsyncStorage.getItem('temp');
-      const result = JSON.parse(value);
-      console.log(result);
+      await AsyncStorage.setItem('result', JSON.stringify(prop));
+      console.log("set " + prop);
   } catch (err) {
-      console.log(err);
+      alert("set" + err);
   }
+}
+
+const getSwitchState = async (prop) => {
+  try {
+    const value = await AsyncStorage.getItem('result');
+    if (value !== null) {
+      console.log(value);
+    }else{
+      console.log("empty")
+    }
+   } catch (err) {
+     alert("get " + err)
+   }
 }
