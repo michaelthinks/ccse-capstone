@@ -20,14 +20,17 @@ export default class EventsList extends Component {
     likedEventsSwitch: false,
     newEventsSwitch: false,
     SMSSwitch: false,
-    darkTheme: false,
+    darkTheme: false    
   };
 
+  componentDidMount(){
+    //this.state.darkTheme = 
+  }
 
   render() {
-
-   
+    
     return (
+      
       <SafeAreaView style={globalStyles.mainContainer}>
         <StatusBar style="auto" hidden={false} />
 
@@ -157,8 +160,6 @@ export default class EventsList extends Component {
                 value={this.state.SMSSwitch}
                 onValueChange={
                   printState(this.state.SMSSwitch), 
-                  // setSwitchState(this.state.SMSSwitch),
-                  // getSwitchState(this.state.SMSSwitch),
                   (SMSSwitch) => this.setState({ SMSSwitch })
                 }
               />
@@ -200,10 +201,8 @@ export default class EventsList extends Component {
                 onValueChange={
                   printState(this.state.darkTheme),
                   setSwitchState(this.state.darkTheme),
-                  getSwitchState(this.state.darkTheme),
+                  getSwitchState(),
                   (darkTheme) => this.setState({ darkTheme })
-
-
                 }
               />
             </View>
@@ -222,13 +221,13 @@ const printState = (prop) => {
 const setSwitchState = async (prop) => {
   try {
       await AsyncStorage.setItem('result', JSON.stringify(prop));
-      console.log("set " + prop);
+      console.log("set: " + prop);
   } catch (error) {
       alert("set: " + error);
   }
 }
 
-const getSwitchState = async (prop) => {
+const getSwitchState = async () => {
   try {
     const value = await AsyncStorage.getItem('result');
     const valueParsed = JSON.parse(value);
