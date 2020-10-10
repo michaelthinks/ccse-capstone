@@ -7,7 +7,7 @@ import {
   ImageBackground,
   TouchableOpacity,
   Linking,
-  AsyncStorage,
+  AsyncStorage, Alert
 } from "react-native";
 import { NavigationContainer, DrawerActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
@@ -30,6 +30,10 @@ const Stack = createStackNavigator();
 
 export default class App extends Component {
 
+  
+
+
+
   // Constructor for the app - this is the intialization code for the application
   // The code to retrieve the data, save it to a JSON object will be performed here
   // It will be performed when the app is first opened OR we can force refresh it (will implement later)
@@ -45,6 +49,34 @@ export default class App extends Component {
   // }
 
   render() {
+    const EVENT_STORAGE_KEY = '@save_events';
+
+    const App = () => {
+      const [events, setEvents] = useState(eventTestDataFile);
+    }
+
+    const saveEvents = async () => {
+      try {
+        await AsyncStorage.setItem(EVENT_STORAGE_KEY, events);
+        Alert.alert("Woo! saved");
+      } catch (e) {
+        Alert.alert("There was a booboo");
+      }
+    }
+
+    const readEvents = async () => {
+      try {
+        const getTheEvents = await AsyncStorage.getItem(EVENT_STORAGE_KEY);
+
+        if (getTheEvents !== null) {
+          setEvents(getTheEvents);
+        }
+        Alert.alert("woo, read!");
+      } catch (e) {
+        Alert.alert("there was a booboo");
+      }
+    }
+
     return (
       <View style={globalStyles.container}>
         <ImageBackground
