@@ -33,20 +33,6 @@ const Stack = createStackNavigator();
 
 export default class App extends Component {
 
-  // Constructor for the app - this is the intialization code for the application
-  // The code to retrieve the data, save it to a JSON object will be performed here
-  // It will be performed when the app is first opened OR we can force refresh it (will implement later)
-  // constructor(props) {
-  //   super(props);
-  //   this.saveEventData();
-  // }
-
-  // // This function refreshes the event (gathers data from website, stores it in asyncstorage)
-  // async saveEventData() {
-  //   // Note this is using dummy data for the time being!
-  //   AsyncStorage.setItem('events', JSON.stringify(eventTestDataFile));
-  // }
-
   // loadAndSaveEventData fetches the RSS data from the given URL (the CCSE events RSS feed normally)
   // It uses the react-native-xml2js library to convert the XML data into JSON data
   retrieveAndSaveEventData(dataUrl) {
