@@ -11,7 +11,7 @@ import eventData from '../TestData/testData.json';
 //const eventData = JSON.parse(AsyncStorage.getItem('events'));
 
 export default class EventsList extends Component {
-    
+
     goToEvent() {
         // This is a dummy function for now - it will forward to the event details page
         alert("Event Selected!");
@@ -23,6 +23,7 @@ export default class EventsList extends Component {
     }
 
     render() {
+        console.log(JSON.stringify(global.eventsDataSource));
         // This function is used to render each individual event item
         // It is called by the FlatList renderItem property below
         // TouchableWithoutFeedback encloses each element that needs to be
@@ -37,14 +38,14 @@ export default class EventsList extends Component {
                     </View>
                 </TouchableWithoutFeedback>
                 <View key={item + "DateContainer"} style={globalStyles.eventListItemDateContainer}>
-                    <Text key={item + "DateText"} style={globalStyles.eventListItemDate}>{item.EventDate}</Text>
+                    <Text key={item + "DateText"} style={globalStyles.eventListItemDate}>{item.EventAltDate}</Text>
                 </View>
                 
                 
                 <View key={item + "ContentContainer"} style={globalStyles.eventListItemContentContainer}>
                     <TouchableWithoutFeedback key={item + "ThumbnailContainer"} onPress={(this.goToEvent)}>
                         <View key={item + "Thumbnail"} style={globalStyles.eventListItemThumbnail}>
-                            <Image key={item + "ThumbnailImage"} source={require('../assets/testthumbnail.jpg')} />
+                            <Image key={item + "ThumbnailImage"} source={{uri: item.EventImage}} />
                         </View>
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback key={item + "DescriptionContainer"} onPress={(this.goToEvent)}>
@@ -88,10 +89,13 @@ export default class EventsList extends Component {
                         </TouchableWithoutFeedback>
                     </View>
 
-                    {/* This is the main container - it contains the FlatList that displays event items */}
+                    {/* This is the main container - it contains the FlatList that displays event items 
+                    Note that to access the data correctly, you must access global.eventsDataSource._55
+                    It seems that when React saves the data to Async (or when it retrieves it) it is separating the data
+                    into a new object called _55 - this will need to be figured out */}
                     <View style={globalStyles.contentContainer}>
                         <FlatList
-                            data={eventData}
+                            data={global.eventsDataSource._55}
                             renderItem={renderEventItem}
                             keyExtractor={(item, index) => item.EventId}
                             style={globalStyles.eventList}
