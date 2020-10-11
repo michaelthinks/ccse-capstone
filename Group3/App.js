@@ -13,7 +13,6 @@ import { NavigationContainer, DrawerActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { globalStyles } from "./styles/styles.js";
-
 //Importing different screens
 import EventsList from "./Screens/EventsList";
 import Home from "./Screens/Home";
@@ -23,6 +22,7 @@ import Settings from "./Screens/Settings";
 
 // Import test data
 import eventTestDataFile from './TestData/testData.json';
+import parseErrorStack from "react-native/Libraries/Core/Devtools/parseErrorStack";
 
 //used to set up Drawer and Stack Navigators
 const Drawer = createDrawerNavigator();
@@ -50,12 +50,13 @@ export default class App extends Component {
 
   loadEventData(dataUrl) {
     var xmlData = fetch(dataUrl);
+    console.log("Hey");
 
   }
 
   render() {
     
-    this.loadEventData();
+    this.loadEventData('https://calendar.kennesaw.edu/department/college_of_computing_and_software_engineering/calendar/xml');
       
     return (
       <View style={globalStyles.container}>
