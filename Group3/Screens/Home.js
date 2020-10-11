@@ -42,6 +42,16 @@ export default class Home extends Component {
                       {/* Note about navigate - you must use the NAME you gave to the screen in App.js, NOT the actual file name */}
                       <Button
                           style={globalStyles.homePageButton} 
+                          onPress={() => this.props.navigation.navigate('Liked Events')}
+                          title="Liked Events"
+                          color="#febc11"
+                          accessibilityLabel="This button will navigate to the Liked Events page." 
+                      />
+                  </View>
+                  <View style={globalStyles.homePageButton}>
+                      {/* Note about navigate - you must use the NAME you gave to the screen in App.js, NOT the actual file name */}
+                      <Button
+                          style={globalStyles.homePageButton} 
                           onPress={() => this.props.navigation.navigate('Campus Maps')}
                           title="Campus Maps"
                           color="#febc11"
