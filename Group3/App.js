@@ -77,6 +77,8 @@ export default class App extends Component {
       eventJsonData[key].EventDescription = eventJsonData[key]["description"][0];
       delete eventJsonData[key]["description"][0];
 
+      eventJsonData[key].FriendlyDescription = eventJsonData[key]["EventDescription"].replace(/(<([^>]+)>)/gi, "");
+
       eventJsonData[key].EventLink = eventJsonData[key]["link"][0];
       delete eventJsonData[key]["link"][0];
 

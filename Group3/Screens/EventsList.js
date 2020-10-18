@@ -22,6 +22,12 @@ export default class EventsList extends Component {
         alert("Event Liked!");
     }
 
+    getAnImage(imageUri) {
+        fetch(imageUri).then((data) => {
+            return data;
+        });
+    }
+
     render() {
         console.log(JSON.stringify(global.eventsDataSource));
         // This function is used to render each individual event item
@@ -31,26 +37,25 @@ export default class EventsList extends Component {
         const renderEventItem = ({item}) => (
             
             <View key={item} style={globalStyles.eventListItemHeaderContainer}>
+                
+                <TouchableWithoutFeedback key={item + "ThumbnailContainer"} onPress={(this.goToEvent)}>
+                    <View key={item + "Thumbnail"} style={globalStyles.eventListItemThumbnail}>
+                        <Image key={item + "ThumbnailImage"} source={this.getAnImage(item.EventImage)} />
+                    </View>
+                </TouchableWithoutFeedback>
 
                 <TouchableWithoutFeedback key={item + "TitleContainer"} onPress={(this.goToEvent)}>
                     <View key={item + "Title"} style={globalStyles.eventListItemTitleContainer}>
                         <Text key={item + "TitleText"} style={globalStyles.eventListItemTitle}>{item.EventName}</Text>    
                     </View>
                 </TouchableWithoutFeedback>
-                <View key={item + "DateContainer"} style={globalStyles.eventListItemDateContainer}>
-                    <Text key={item + "DateText"} style={globalStyles.eventListItemDate}>{item.EventAltDate}</Text>
-                </View>
                 
                 
                 <View key={item + "ContentContainer"} style={globalStyles.eventListItemContentContainer}>
-                    <TouchableWithoutFeedback key={item + "ThumbnailContainer"} onPress={(this.goToEvent)}>
-                        <View key={item + "Thumbnail"} style={globalStyles.eventListItemThumbnail}>
-                            <Image key={item + "ThumbnailImage"} source={{uri: item.EventImage}} />
-                        </View>
-                    </TouchableWithoutFeedback>
+
                     <TouchableWithoutFeedback key={item + "DescriptionContainer"} onPress={(this.goToEvent)}>
                         <View key={item + "Description"} style={globalStyles.eventListItemDescription}>
-                            <Text key={item + "DescriptionText"} numberOfLines={5}>{item.EventDescription}</Text>
+                            <Text key={item + "DescriptionText"} numberOfLines={5}>{item.FriendlyDescription}</Text>
                         </View>
                     </TouchableWithoutFeedback>
                     <TouchableWithoutFeedback key={item + "LikeContainer"} onPress={(this.likeEvent)}>
@@ -62,7 +67,7 @@ export default class EventsList extends Component {
                 
             </View>
             
-        );   
+        );  
 
         return(
             // SafeAreaView is iOS specific and doesn't do anything on Android. It keeps the main 
