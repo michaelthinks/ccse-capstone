@@ -18,11 +18,14 @@ export default class EventsList extends Component {
     likedEventsSwitch: false,
     newEventsSwitch: false,
     SMSSwitch: false,
-    darkTheme: false,
+    darkTheme: null,
   };
 
+  // looks like switch state above over rides whatever is in componentDidMount
   componentDidMount() {
-    //this.state.darkTheme =
+    console.log("***component did mount***")
+    printState(this.state.darkTheme);
+    this.state.darkTheme = getSwitchState();
   }
 
   render() {
@@ -82,6 +85,7 @@ export default class EventsList extends Component {
                   value={this.state.likedEventsSwitch}
                   onValueChange={
                     (printState(this.state.likedEventsSwitch),
+                    //setSwitchState(this.state.likedEventsSwitch),
                     (likedEventsSwitch) => this.setState({ likedEventsSwitch }))
                   }
                 />
@@ -123,6 +127,7 @@ export default class EventsList extends Component {
                   value={this.state.newEventsSwitch}
                   onValueChange={
                     (printState(this.state.newEventsSwitch),
+                    //setSwitchState(this.state.newEventsSwitch),
                     (newEventsSwitch) => this.setState({ newEventsSwitch }))
                   }
                 />
@@ -162,6 +167,7 @@ export default class EventsList extends Component {
                   value={this.state.SMSSwitch}
                   onValueChange={
                     (printState(this.state.SMSSwitch),
+                    //setSwitchState(this.state.SMSSwitch),
                     (SMSSwitch) => this.setState({ SMSSwitch }))
                   }
                 />
@@ -202,7 +208,6 @@ export default class EventsList extends Component {
                   onValueChange={
                     (printState(this.state.darkTheme),
                     setSwitchState(this.state.darkTheme),
-                    getSwitchState(),
                     (darkTheme) => this.setState({ darkTheme }))
                   }
                 />
@@ -230,14 +235,16 @@ const setSwitchState = async (prop) => {
 
 const getSwitchState = async () => {
   try {
-    const value = await AsyncStorage.getItem("resulit");
+    const value = await AsyncStorage.getItem("result");
     const valueParsed = JSON.parse(value);
-    if (value !== null) {
+    if (valueParsed !== null) {
       console.log("get: " + valueParsed);
+      return (valueParsed);
     } else {
-      console.log("get: empty");
+        console.log("get: empty");
+        return ("false");
     }
   } catch (error) {
-    alert("get " + error);
+    alert("get: " + error);
   }
 };
