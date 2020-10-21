@@ -68,7 +68,7 @@ export const globalStyles = StyleSheet.create({
     },
 
     headerText: {
-        fontSize: 20,
+        fontSize: 40,
         marginLeft: 5,
         fontWeight: "bold",
         flex: .9,
