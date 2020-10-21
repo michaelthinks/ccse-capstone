@@ -35,28 +35,86 @@ export default class App extends Component {
 
   // loadAndSaveEventData fetches the RSS data from the given URL (the CCSE events RSS feed normally)
   // It uses the react-native-xml2js library to convert the XML data into JSON data
-  retrieveAndSaveEventData(dataUrl) {
+  async retrieveAndSaveEventData(dataUrl) {
+    // Key to identify object in AsyncStorage
+    var eventsKey = "events";
+    var cacheKey = "cache"
 
+    var events;
+    var cache;
+
+    // Create our XML2JS parser to parse the RSS/XML feed
     var parseString = require('react-native-xml2js').parseString;
 
+    // fetch the data and store the data in cache
     var jsonData = fetch(dataUrl)
       .then((response) => response.text())
       .then((response) => {
         parseString(response, (err, result) => {
-            var storageResult = this.storeDataItem("events", result);
+          this.storeDataItem(cacheKey, result);
             // Debugging statements for viewing JSON data and Promise results
             // console.log(storageResult)
-            // console.log(JSON.stringify(result));
         })
       });
+
+    // Load cache items from cache into cache variable
+    this.loadDataItem(cacheKey).then((data) => { cache = data });
+
+    // Attempt to load event items - this will be used in the next if/else statement to see if we need to reload the event data
+    //this.loadDataItem(eventsKey).then((data) => { events = data });
+    this.loadDataItem(eventsKey).then((data) => {
+        // If no data currently exists in Async, then load data in Async under events key (this is the apps first load), then populate data for the first time
+        console.log(JSON.stringify(global.eventsDataSource));
+        alert(data);
+        if (data._55 === undefined || data._55 === null) {
+          // Format the data and store in our global variable
+          global.eventsDataSource = this.formatEventData(cache);
+
+          
+          // Store the data in AsyncStorage
+          this.storeDataItem(eventsKey, global.eventsDataSource);
+        }
+
+        // If there is already data stored, check to see if there have been any updates to the data
+        else {
+          // Flag to let us know if data has changed
+          var dataChanged = false;
+
+          for (key in global.eventsDataSource) {
+            // Check to see if the event names are equal for each event - if they aren't the data has changed
+            if (global.eventsDataSource[key].EventName !== cache[key].EventName) {
+              dataChanged = true;    
+            }
+          }
+
+          // If data has changed, overwrite the event data in AsyncStorage with the new data
+          if (dataChanged) {
+            // Format the data and store in our global variable
+            global.eventsDataSource = this.formatEventData(cache);
+
+
+            // Store the data in AsyncStorage
+            this.storeDataItem(eventsKey, global.eventsDataSource);
+          }
+          else {
+            // Do nothing
+            // Debug alert
+            alert("Data not updated");
+          }
+        }
+
+      });
+    
+    
+
   }
   
-  // loadEventDataItem is specific for loading events
+  // formatEventData is specific for loading events
   // it strips unecessary JSON data that is imported from the RSS feed, reformats some of the
   // tags (such as tags that have an colon character in the object names, which is invalid in React),
   // and adds an event ID to the objects
-  async loadEventDataItem(key) {
-    var rawJsonData = await this.loadDataItem("events");
+  async formatEventData(rawJsonData) {
+    //var rawJsonData = await this.loadDataItem(theKey);
     //console.log(JSON.stringify(rawJsonData.rss.channel[0].item));
     
     var eventJsonData = rawJsonData.rss.channel[0].item;
@@ -64,7 +122,7 @@ export default class App extends Component {
     for (key in eventJsonData) {
       // Create a new more friend eventDate object and delete the old one
       eventJsonData[key].EventDate = eventJsonData[key]["dc:date"][0];
-      delete eventJsonData[key]["dc:date"][0];
+      delete eventJsonData[key]["dc:date"];
 
       // Create a new and more friendly object for the image url
       eventJsonData[key].EventImage = eventJsonData[key]["media:content"][0]["$"]["url"];
@@ -72,28 +130,25 @@ export default class App extends Component {
 
       // Move the other objects out of an array for easier access
       eventJsonData[key].EventName = eventJsonData[key]["title"][0];
-      delete eventJsonData[key]["title"][0];
+      delete eventJsonData[key]["title"];
 
       eventJsonData[key].EventDescription = eventJsonData[key]["description"][0];
-      delete eventJsonData[key]["description"][0];
+      delete eventJsonData[key]["description"];
 
       eventJsonData[key].FriendlyDescription = eventJsonData[key]["EventDescription"].replace(/(<([^>]+)>)/gi, "");
 
       eventJsonData[key].EventLink = eventJsonData[key]["link"][0];
-      delete eventJsonData[key]["link"][0];
+      delete eventJsonData[key]["link"];
 
       eventJsonData[key].EventAltDate = eventJsonData[key]["pubDate"][0];
-      delete eventJsonData[key]["pubDate"][0];
-
-      // Add Liked property to the objects - default to false
-      eventJsonData[key].Liked = false;
+      delete eventJsonData[key]["pubDate"];
 
       // Add an event ID to each event
-      eventJsonData[key].EventId = key.toString();
+      eventJsonData[key].EventId = key;
 
     }
     //var jsonData = rawJsonData.rss["channel"];
-    //console.log(JSON.stringify(jsonData));
+    //console.log(JSON.stringify(eventJsonData));
 
     return eventJsonData;
   }
@@ -105,7 +160,7 @@ export default class App extends Component {
       // This process will return a promise, which we will return to the calling function
       // to make sure the save was successful
       var resultOfStorage = await AsyncStorage.setItem(key, JSON.stringify(jsonItem));
-      return resultOfStorage
+      return resultOfStorage;
     } catch (error) {
       console.log(error.message);
     }
@@ -132,11 +187,8 @@ export default class App extends Component {
 
 
   render() {
-    
     this.retrieveAndSaveEventData('https://calendar.kennesaw.edu/department/college_of_computing_and_software_engineering/calendar/xml');
     
-    // Store the event data in a global variable for access anywhere in the app
-    global.eventsDataSource = this.loadEventDataItem("events");
 
 
     return (

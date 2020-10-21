@@ -32,6 +32,11 @@ export default class LikedEvents extends Component {
     alert("Event Liked!");
   }
 
+
+  componentDidUpdate() {
+    
+  }
+  
   render() {
       const renderEventItem = ({ item }) => (
         
@@ -143,10 +148,11 @@ export default class LikedEvents extends Component {
 
           <View style={globalStyles.contentContainer}>
             <FlatList
-              data={eventData}
+              data={global.eventsDataSource._55}
               renderItem={renderEventItem}
               keyExtractor={(item, index) => item.EventId}
               style={globalStyles.eventList}
+              extraData={this.state}
             />
           </View>
         </SafeAreaView>

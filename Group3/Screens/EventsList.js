@@ -17,9 +17,21 @@ export default class EventsList extends Component {
         alert("Event Selected!");
     }
 
-    likeEvent() {
+    likeEvent(id) {
         // This is a dummy function for now - it will foward to a function to like an event
-        alert("Event Liked!");
+
+        global.eventsDataSource._55.forEach(element => {
+            if (element.EventId == id) {
+                if (element.Liked === false || element.Liked == undefined) {
+                    element.Liked = true;
+                    alert("Event Liked!");
+                }
+                else {
+                    element.Liked = false;
+                    alert("Event Un-Liked!");
+                }
+            }
+        });
     }
 
     getAnImage(imageUri) {
@@ -29,7 +41,7 @@ export default class EventsList extends Component {
     }
 
     render() {
-        console.log(JSON.stringify(global.eventsDataSource));
+        //console.log(JSON.stringify(global.eventsDataSource));
         // This function is used to render each individual event item
         // It is called by the FlatList renderItem property below
         // TouchableWithoutFeedback encloses each element that needs to be
@@ -58,9 +70,15 @@ export default class EventsList extends Component {
                             <Text key={item + "DescriptionText"} numberOfLines={5}>{item.FriendlyDescription}</Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback key={item + "LikeContainer"} onPress={(this.likeEvent)}>
-                        <View key={item + "Like"} style={globalStyles.likeEventIcon}>
-                            <Image key={item + "LikeImage"} source={require('../assets/likeIcon.png')}></Image>
+                    <TouchableWithoutFeedback key={item + "LikeContainer"} onPress={() => { this.likeEvent(item.EventId) }}>
+                        <View key={item + "Like"} style={globalStyles.likeEventIcon}>  
+                            {/* Choose the appropriate icon depending on whether or not the event is liked */}
+                            {item.Liked &&
+                            <Image key={item + "LikeImage"} source={ require('../assets/likeSelectedIcon.png') }></Image>
+                            }
+                            {!item.Liked &&
+                            <Image key={item + "LikeImage"} source={ require('../assets/likeIcon.png') }></Image>
+                            }
                         </View>
                     </TouchableWithoutFeedback>
                 </View>
