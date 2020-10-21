@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { useState, Component } from "react";
+import React, { Component } from "react";
 import {
   Text,
   View,
@@ -18,14 +18,16 @@ export default class EventsList extends Component {
     likedEventsSwitch: false,
     newEventsSwitch: false,
     SMSSwitch: false,
-    darkTheme: null,
+    darkTheme: false,
   };
 
-  // looks like switch state above over rides whatever is in componentDidMount
-  componentDidMount() {
+  // looks like switch state above over rides whatever is in componentDidMount because componentdidmount runs first and then state sets it to false???
+  async componentDidMount() {
+    
     console.log("***component did mount***")
     printState(this.state.darkTheme);
     this.state.darkTheme = getSwitchState();
+    printState(this.state.darkTheme);
   }
 
   render() {
@@ -205,11 +207,11 @@ export default class EventsList extends Component {
               >
                 <Switch
                   value={this.state.darkTheme}
-                  onValueChange={
-                    (printState(this.state.darkTheme),
-                    setSwitchState(this.state.darkTheme),
-                    (darkTheme) => this.setState({ darkTheme }))
-                  }
+                  onValueChange={(
+                    printState(this.state.darkTheme),
+                    setSwitchState(this.state.darkTheme),  //this function is in the wrong place, it should be BELOW the next line so that it records the switch state after its changed, but react native doesnt like it
+                    (darkTheme) => this.setState({ darkTheme })
+                  )}
                 />
               </View>
             </View>
@@ -226,23 +228,23 @@ const printState = (prop) => {
 
 const setSwitchState = async (prop) => {
   try {
-    await AsyncStorage.setItem("result", JSON.stringify(prop));
+    await AsyncStorage.setItem('result', JSON.stringify(prop));
     console.log("set: " + prop);
   } catch (error) {
-    alert("set: " + error);
+      alert("set: " + error);
   }
 };
 
 const getSwitchState = async () => {
   try {
-    const value = await AsyncStorage.getItem("result");
-    const valueParsed = JSON.parse(value);
+    var value = await AsyncStorage.getItem('result');
+    var valueParsed = JSON.parse(value);
     if (valueParsed !== null) {
       console.log("get: " + valueParsed);
       return (valueParsed);
     } else {
         console.log("get: empty");
-        return ("false");
+        return ('false');
     }
   } catch (error) {
     alert("get: " + error);
