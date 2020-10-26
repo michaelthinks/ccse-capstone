@@ -27,7 +27,7 @@ export default class EventsList extends Component {
     console.log("***component did mount***")
     printState(this.state.darkTheme);
     this.state.darkTheme = getSwitchState();
-    printState(this.state.darkTheme);
+    //printState(this.state.darkTheme);
   }
 
   render() {
@@ -207,11 +207,12 @@ export default class EventsList extends Component {
               >
                 <Switch
                   value={this.state.darkTheme}
-                  onValueChange={(
-                    printState(this.state.darkTheme),
-                    setSwitchState(this.state.darkTheme),  //this function is in the wrong place, it should be BELOW the next line so that it records the switch state after its changed, but react native doesnt like it
-                    (darkTheme) => this.setState({ darkTheme })
-                  )}
+                  onValueChange={ () => {
+                    //printState(this.state.darkTheme),
+                     //this function is in the wrong place, it should be BELOW the next line so that it records the switch state after its changed, but react native doesnt like it
+                    (darkTheme) => this.setState(!darkTheme)
+                    .then(setSwitchState(this.state.darkTheme))
+                  }}
                 />
               </View>
             </View>
@@ -237,15 +238,18 @@ const setSwitchState = async (prop) => {
 
 const getSwitchState = async () => {
   try {
-    var value = await AsyncStorage.getItem('result');
-    var valueParsed = JSON.parse(value);
-    if (valueParsed !== null) {
-      console.log("get: " + valueParsed);
-      return (valueParsed);
-    } else {
-        console.log("get: empty");
-        return ('false');
-    }
+    var value = await AsyncStorage.getItem('result')
+    .then((data) => JSON.parse(data))
+    .then((valueParsed) => {
+      if (valueParsed !== null) {
+        //console.log("get: " + valueParsed);
+        return (valueParsed);
+      } else {
+          console.log("get: empty");
+          return (false);
+      }
+    })
+    .then((data) => console.log(data._65));
   } catch (error) {
     alert("get: " + error);
   }
