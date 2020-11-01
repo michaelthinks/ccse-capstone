@@ -7,37 +7,112 @@ import { NavigationContainer, DrawerActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import eventData from '../TestData/testData.json';
+import AppFunc from '../Scripts/AppFunctions.js';
 
-//const eventData = JSON.parse(AsyncStorage.getItem('events'));
+state = {
+    updatedScreen: false
+}
 
 export default class EventsList extends Component {
+
+    // App object so we can use the functions in App.js
+    AppFunctions = new AppFunc();
+
+
+    constructor() {
+        super();
+    }
 
     goToEvent() {
         // This is a dummy function for now - it will forward to the event details page
         alert("Event Selected!");
     }
 
-    likeEvent(id) {
-        // This is a dummy function for now - it will foward to a function to like an event
-
-        global.eventsDataSource._55.forEach(element => {
-            if (element.EventId == id) {
-                if (element.Liked === false || element.Liked == undefined) {
-                    element.Liked = true;
-                    alert("Event Liked!");
-                }
-                else {
-                    element.Liked = false;
-                    alert("Event Un-Liked!");
-                }
-            }
+    // This will reload the page when the user navigates to it so that it updates with the most current information
+    componentDidMount() {
+        this.props.navigation.addListener('focus', () => {
+            this.setState({updatedScreen: true});
         });
     }
 
-    getAnImage(imageUri) {
-        fetch(imageUri).then((data) => {
-            return data;
+    likeEvent(name) {
+        // This is sued as a cache for the following script to add events too - React Native won't allow you to directly delete array elements
+        // from the global variable, so we build our liked events in this cache and then reassign it to the global variable
+        var likedCache = [];
+
+        global.eventsDataSource.forEach(eventElement => {
+            // Check to see if we've found the right event in the events list
+            if (eventElement.EventName == name) {
+                if (global.likedEvents.liked.length < 1) {
+                    console.log("No liked elements exist - adding this one as the first");
+                    likedCache.push(eventElement);
+                }
+                else {
+                    // This variable helps us keep track of whether or not we've found a match in the following for loop
+                    var deletedElement = false;
+                    // Iterate through the current array of liked events
+                    for (var i = 0; i < global.likedEvents.liked.length; i++) {
+                        // If name equals a named in the likedEvents list, then it means we need to unlike it
+                        if (global.likedEvents.liked[i].EventName == name) {
+                            // Just ignore the event and DON'T add it to the liked cache
+                            // Set deletedElement to true so we know that an element was disliked
+                            console.log("deleting event");
+                            deletedElement = true;
+                        }
+                        else {
+                            // Otherwise, add it to our liked cache
+                            console.log("adding already existing event to cache");
+                            likedCache.push(global.likedEvents.liked[i]);
+                        }
+                    }
+
+                    // Check deleted Element - if it's still false, that means we have a new likedEvent and we need to add it to the cache
+                    if (!deletedElement) {
+                        likedCache.push(eventElement);
+                        console.log("New Event Added");
+                    }
+                }
+            }
+            else {
+                // Do nothing - element does not match
+            }
+            
         });
+
+        // Save likedEvents to the global variable
+        global.likedEvents.liked = likedCache;
+
+        // Save liked events to AsyncStorage
+        this.AppFunctions.storeDataItem("likedEvents", { "liked": likedCache })
+
+        // Update state so the page updates
+        this.setState({updatedScreen: true});
+
+        console.log(global.likedEvents.liked);
+    }
+
+    // This function is used to determine whether or not the given event has been liked - it is used to figure out which liked icon to use in the events list
+    checkLiked(name) {
+        var eventIsLiked = false;
+
+        // Check to see if event is liked, if it is, set out flag variable to true
+        global.likedEvents.liked.forEach((eventElement) => {
+            if (eventElement.EventName == name) {
+                eventIsLiked = true;
+            }
+        });
+
+        // Return the correct JSX image tag depending onwhether or not eventIsLiked is true
+        return eventIsLiked ? <Image key="LikeImage" source={ require('../assets/likeSelectedIcon.png') }></Image> : <Image key="LikeImage" source={ require('../assets/likeIcon.png') }></Image>;
+    }
+
+    getAnImage(imageUri) {
+        // fetch(imageUri).then((data) => {
+        //     return data;
+        // });
+        console.log("uri: " + imageUri);
+        return "uri:" + imageUri;
+
     }
 
     render() {
@@ -52,7 +127,10 @@ export default class EventsList extends Component {
                 
                 <TouchableWithoutFeedback key={item + "ThumbnailContainer"} onPress={(this.goToEvent)}>
                     <View key={item + "Thumbnail"} style={globalStyles.eventListItemThumbnail}>
-                        <Image key={item + "ThumbnailImage"} source={this.getAnImage(item.EventImage)} />
+                        <Image key={item + "ThumbnailImage"}
+                            style={{width: 400, height: 75}} 
+                            source={{uri: item.EventImage,}} 
+                        />
                     </View>
                 </TouchableWithoutFeedback>
 
@@ -70,15 +148,10 @@ export default class EventsList extends Component {
                             <Text key={item + "DescriptionText"} numberOfLines={5}>{item.FriendlyDescription}</Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback key={item + "LikeContainer"} onPress={() => { this.likeEvent(item.EventId) }}>
+                    <TouchableWithoutFeedback key={item + "LikeContainer"} onPress={() => { this.likeEvent(item.EventName) }}>
                         <View key={item + "Like"} style={globalStyles.likeEventIcon}>  
                             {/* Choose the appropriate icon depending on whether or not the event is liked */}
-                            {item.Liked &&
-                            <Image key={item + "LikeImage"} source={ require('../assets/likeSelectedIcon.png') }></Image>
-                            }
-                            {!item.Liked &&
-                            <Image key={item + "LikeImage"} source={ require('../assets/likeIcon.png') }></Image>
-                            }
+                            {this.checkLiked(item.EventName)}
                         </View>
                     </TouchableWithoutFeedback>
                 </View>
@@ -118,7 +191,7 @@ export default class EventsList extends Component {
                     into a new object called _55 - this will need to be figured out */}
                     <View style={globalStyles.contentContainer}>
                         <FlatList
-                            data={global.eventsDataSource._55}
+                            data={global.eventsDataSource}
                             renderItem={renderEventItem}
                             keyExtractor={(item, index) => item.EventId}
                             style={globalStyles.eventList}

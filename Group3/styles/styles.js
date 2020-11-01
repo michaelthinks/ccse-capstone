@@ -60,14 +60,8 @@ export const globalStyles = StyleSheet.create({
     },
 
     eventListItemThumbnail: {
-      flex: 1,
-      flexDirection: "row",
-      justifyContent: "center",
       justifyContent: 'center',
       alignItems: 'center',
-      height: 75,
-      width: 200,
-      resizeMode: 'contain',
     },
 
     headerText: {
