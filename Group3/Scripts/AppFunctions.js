@@ -6,9 +6,9 @@ import {
   View,
   ImageBackground,
   TouchableOpacity,
-  Linking,
-  AsyncStorage, Alert
+  Linking, Alert
 } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
 import { NavigationContainer, DrawerActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
