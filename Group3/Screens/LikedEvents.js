@@ -20,98 +20,59 @@ import { NavigationContainer, DrawerActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import eventData from "../TestData/testData.json";
+import EventsList from "./EventsList.js";
+
 
 export default class LikedEvents extends Component {
-  goToEvent() {
-    alert("Event Selected!");
-  }
+  
+  // Variable to create a new EventsList object so we can use the functions in EventsList
+  EventsFunctions = new EventsList();
 
-  //This function will be changed later to toggle if the event is liked or not.  Needs to be able to remove liked status as well.
-  //Could make another json file with liked events stored on it
-  likeEvent() {
-    alert("Event Liked!");
+  // This will reload the page when the user navigates to it so that it updates with the most current information
+  componentDidMount() {
+    this.props.navigation.addListener('focus', () => {
+        this.setState({});
+    });
   }
 
   render() {
       const renderEventItem = ({ item }) => (
         
-        <View key={item}>
-          {item.Liked &&
-          <View style={globalStyles.eventListItemHeaderContainer}>
-            <TouchableWithoutFeedback
-              key={item + "TitleContainer"}
-              onPress={this.goToEvent}
-            >
-              <View
-                key={item + "Title"}
-                style={globalStyles.eventListItemTitleContainer}
-              >
-                <Text
-                  key={item + "TitleText"}
-                  style={globalStyles.eventListItemTitle}
-                >
-                  {item.EventName}
-                </Text>
+        <View key={item} style={globalStyles.eventListItemHeaderContainer}>
+                
+          <TouchableWithoutFeedback key={item + "ThumbnailContainer"} onPress={(this.goToEvent)}>
+              <View key={item + "Thumbnail"} style={globalStyles.eventListItemThumbnail}>
+              <Image key={item + "ThumbnailImage"}
+                            style={{width: 600, height: 75}}
+                            resizeMode={'center'} 
+                            source={{uri: item.EventImage,}} 
+                        />
               </View>
-            </TouchableWithoutFeedback>
-            <View
-              key={item + "DateContainer"}
-              style={globalStyles.eventListItemDateContainer}
-            >
-              <Text
-                key={item + "DateText"}
-                style={globalStyles.eventListItemDate}
-              >
-                {item.EventDate}
-              </Text>
-            </View>
+          </TouchableWithoutFeedback>
 
-            <View
-              key={item + "ContentContainer"}
-              style={globalStyles.eventListItemContentContainer}
-            >
-              <TouchableWithoutFeedback
-                key={item + "ThumbnailContainer"}
-                onPress={this.goToEvent}
-              >
-                <View
-                  key={item + "Thumbnail"}
-                  style={globalStyles.eventListItemThumbnail}
-                >
-                  <Image
-                    key={item + "ThumbnailImage"}
-                    source={require("../assets/testthumbnail.jpg")}
-                  />
-                </View>
+          <TouchableWithoutFeedback key={item + "TitleContainer"} onPress={(this.goToEvent)}>
+              <View key={item + "Title"} style={globalStyles.eventListItemTitleContainer}>
+                  <Text key={item + "TitleText"} style={globalStyles.eventListItemTitle}>{item.EventName}</Text>    
+              </View>
+          </TouchableWithoutFeedback>
+          
+          
+          <View key={item + "ContentContainer"} style={globalStyles.eventListItemContentContainer}>
+
+              <TouchableWithoutFeedback key={item + "DescriptionContainer"} onPress={(this.EventsFunctions.goToEvent)}>
+                  <View key={item + "Description"} style={globalStyles.eventListItemDescription}>
+                      <Text key={item + "DescriptionText"} numberOfLines={5}>{item.FriendlyDescription}</Text>
+                  </View>
               </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback
-                key={item + "DescriptionContainer"}
-                onPress={this.goToEvent}
-              >
-                <View
-                  key={item + "Description"}
-                  style={globalStyles.eventListItemDescription}
-                >
-                  <Text key={item + "DescriptionText"} numberOfLines={5}>
-                    {item.EventDescription}
-                  </Text>
-                </View>
+              <TouchableWithoutFeedback key={item + "LikeContainer"} onPress={() => { this.EventsFunctions.likeEvent(item.EventName); this.setState({}) }}>
+                  <View key={item + "Like"} style={globalStyles.likeEventIcon}>  
+                      {/* Choose the appropriate icon depending on whether or not the event is liked */}
+                      {this.EventsFunctions.checkLiked(item.EventName) }
+                  </View>
               </TouchableWithoutFeedback>
-              <TouchableWithoutFeedback
-                key={item + "LikeContainer"}
-                onPress={this.likeEvent}
-              >
-                <View key={item + "Like"} style={globalStyles.likeEventIcon}>
-                  <Image
-                    key={item + "LikeImage"}
-                    source={require("../assets/likeIcon.png")}
-                  ></Image>
-                </View>
-              </TouchableWithoutFeedback>
-            </View>
           </View>
-          }
-        </View>
+          
+      </View>
       );
 
       return (
@@ -133,7 +94,7 @@ export default class LikedEvents extends Component {
             </View>
 
             <TouchableWithoutFeedback
-              onPress={() => this.setState({ updateCount: "0" })}
+              onPress={() => this.setState({})}
             >
               <View style={globalStyles.refreshIcon}>
                 <Image source={require("../assets/refreshicon.png")} />
@@ -143,10 +104,11 @@ export default class LikedEvents extends Component {
 
           <View style={globalStyles.contentContainer}>
             <FlatList
-              data={eventData}
+              data={global.likedEvents.liked}
               renderItem={renderEventItem}
               keyExtractor={(item, index) => item.EventId}
               style={globalStyles.eventList}
+              extraData={this.state}
             />
           </View>
         </SafeAreaView>
