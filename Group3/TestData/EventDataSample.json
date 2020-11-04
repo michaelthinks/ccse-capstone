@@ -1,0 +1,41 @@
+[
+    {
+       "guid":[
+          {
+             "_":"tag:localist.com,2008:EventInstance_34430201788987",
+             "$":{
+                "isPermaLink":"false"
+             }
+          }
+       ],
+       "EventDate":"2020-11-04T18:00:00-05:00",
+       "EventImage":"https://localist-images.azureedge.net/photos/32512054742849/huge/cf311de3c495db9f362e774b115469c266cf2b2d.jpg",
+       "EventName":"Nov 4, 2020: Black Rock Lecture Series",
+       "EventDescription":"<p>Join us for the last meeting in the Black Rock Lecture Series! BlackRock employees will share an overview of the company and what they wish they knew before entering the workforce.</p>\n\n<p>RSVP here: <a href=\"https://signup.com/mobileweb/2.0/vspot.html?activitykey=977035379803260040#anonymous_invite_page\">https://signup.com/mobileweb/2.0/vspot.html?activitykey=977035379803260040#anonymous_invite_page</a></p>\n\n<p><a href=\"https://calendar.kennesaw.edu/event/black_rock_lecture_series_1227\">View on site</a> | <a href=\"mailto:?subject=I%20found%20an%20interesting%20event:%20Black%20Rock%20Lecture%20Series&amp;body=I%20found%20an%20interesting%20event%20you%20may%20like:%0A%0A%0ADate:%20Nov%204,%202020%0A%0ADescription:%0AJoin%20us%20for%20the%20last%20meeting%20in%20the%20Black%20Rock%20Lecture%20Series!%20BlackRock%20employees%20will%20share%20an%20overview%20of%20the%20company%20and%20what%20they%20wish%20they%20knew%20before%20entering%20the%20workforce.%0A%0ARSVP%20here:%20https://signup.com/mobileweb/2.0/vspot.html?activitykey=977035379803260040%23anonymous_invite_page%0A%0Ahttps://calendar.kennesaw.edu/event/black_rock_lecture_series_1227%0A\">Email this event</a></p>",
+       "FriendlyDescription":"Join us for the last meeting in the Black Rock Lecture Series! BlackRock employees will share an overview of the company and what they wish they knew before entering the workforce.\n\nRSVP here: https://signup.com/mobileweb/2.0/vspot.html?activitykey=977035379803260040#anonymous_invite_page\n\nView on site | Email this event",
+       "EventLink":"https://calendar.kennesaw.edu/event/black_rock_lecture_series_1227",
+       "EventAltDate":"Wed, 04 Nov 2020 18:00:00 -0500",
+       "EventId":"0"
+    },
+    {
+       "guid":[
+          {
+             "_":"tag:localist.com,2008:EventInstance_34686735509410",
+             "$":{
+                "isPermaLink":"false"
+             }
+          }
+       ],
+       "category":[
+          "Conferences & Fairs"
+       ],
+       "EventDate":"2020-12-03T17:00:00-05:00",
+       "EventImage":"https://localist-images.azureedge.net/photos/34686735616935/huge/4a3d0db74a35cdade2c63434f8aef6d78868759a.jpg",
+       "EventName":"Dec 3, 2020: C-Day Fall 2020",
+       "EventDescription":"<p>The College of Computing and Software Engineering (CCSE) Computing Showcase (C-Day) is a biannual event that takes place at the end of fall and spring semesters where participating students showcase some of the richest activity at CCSE. As students prepare for graduation they present posters and games highlighting their experiences within internships, team projects, and capstone and thesis work.</p>\n\n<p><a href=\"https://calendar.kennesaw.edu/event/c-day_fall_2020\">View on site</a> | <a href=\"mailto:?subject=I%20found%20an%20interesting%20event:%20C-Day%20Fall%202020&amp;body=I%20found%20an%20interesting%20event%20you%20may%20like:%0A%0A%0ADate:%20Dec%203,%202020%0A%0ADescription:%0AThe%20College%20of%20Computing%20and%20Software%20Engineering%20(CCSE)%20Computing%20Showcase%20(C-Day)%20is%20a%20biannual%20event%20that%20takes%20place%20at%20the%20end%20of%20fall%20and%20spring%20semesters%20where%20participating%20students%20showcase%20some%20of%20the%20richest%20activity%20at%20CCSE.%20As%20students%20prepare%20for%20graduation%20they%20present%20posters%20and%20games%20highlighting%20their%20experiences%20within%20internships,%20team%20projects,%20and%20capstone%20and%20thesis%20work.%0A%0Ahttps://calendar.kennesaw.edu/event/c-day_fall_2020%0A\">Email this event</a></p>",
+       "FriendlyDescription":"The College of Computing and Software Engineering (CCSE) Computing Showcase (C-Day) is a biannual event that takes place at the end of fall and spring semesters where participating students showcase some of the richest activity at CCSE. As students prepare for graduation they present posters and games highlighting their experiences within internships, team projects, and capstone and thesis work.\n\nView on site | Email this event",
+       "EventLink":"https://calendar.kennesaw.edu/event/c-day_fall_2020",
+       "EventAltDate":"Thu, 03 Dec 2020 17:00:00 -0500",
+       "EventId":"1"
+    }
+ ]

@@ -89,7 +89,8 @@ export default class EventsList extends Component {
         // Update state so the page updates
         this.setState({updatedScreen: true});
 
-        console.log(global.likedEvents.liked);
+        // Prints liked events array for debugging purposes
+        //console.log(JSON.stringify(global.likedEvents.liked));
     }
 
     // This function is used to determine whether or not the given event has been liked - it is used to figure out which liked icon to use in the events list

@@ -59,7 +59,6 @@ export default class AppFunctions extends Component {
       // Save new events to global events variable for use throughout app
       global.eventsDataSource = events;
     }
-
   }
   
   // storeEventData stores the JSON event data in AsyncStorage
