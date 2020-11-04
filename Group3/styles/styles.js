@@ -40,7 +40,7 @@ export const globalStyles = StyleSheet.create({
 
     eventListItemContentContainer: {
       flexDirection: "row",
-      marginBottom: 10,
+      marginBottom: 20,
     },
 
     eventListItemTitle: {
@@ -55,20 +55,17 @@ export const globalStyles = StyleSheet.create({
     },
 
     eventListItemDescription: {
-      flex: .8,
+      flex: .98,
       flexDirection: "row",
     },
 
     eventListItemThumbnail: {
-      flex: 0.2,
-      flexDirection: "row",
-      justifyContent: "center",
       justifyContent: 'center',
-      alignItems: 'center'
+      alignItems: 'center',
     },
 
     headerText: {
-        fontSize: 20,
+        fontSize: 40,
         marginLeft: 5,
         fontWeight: "bold",
         flex: .9,
@@ -200,12 +197,16 @@ export const globalStyles = StyleSheet.create({
       
       homePageContentContainer: {
         flex: 0.90,
-        flexDirection: 'row',
         alignItems: 'center'
+      },
+
+      homePageUpperContainer: {
+        flex: 0.2,
+        flexDirection: 'column',
       },
       
       homePageButtonContainer: {
-        flex: 1,
+        flex: 0.8,
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center'

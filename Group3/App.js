@@ -1,5 +1,5 @@
 import { StatusBar } from "expo-status-bar";
-import React, { Component } from "react";
+import React, { Component, useCallback } from "react";
 import {
   StyleSheet,
   Text,
@@ -7,12 +7,15 @@ import {
   ImageBackground,
   TouchableOpacity,
   Linking,
-  AsyncStorage,
+  AsyncStorage, Alert
 } from "react-native";
 import { NavigationContainer, DrawerActions } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { globalStyles } from "./styles/styles.js";
+
+// Import AppFunctions library
+import AppFunc from "./Scripts/AppFunctions.js"
 
 //Importing different screens
 import EventsList from "./Screens/EventsList";
@@ -21,8 +24,10 @@ import LikedEvents from "./Screens/LikedEvents.js";
 import Maps from "./Screens/Maps";
 import Settings from "./Screens/Settings";
 
+
 // Import test data
 import eventTestDataFile from './TestData/testData.json';
+import parseErrorStack from "react-native/Libraries/Core/Devtools/parseErrorStack";
 
 //used to set up Drawer and Stack Navigators
 const Drawer = createDrawerNavigator();
@@ -30,21 +35,15 @@ const Stack = createStackNavigator();
 
 export default class App extends Component {
 
-  // Constructor for the app - this is the intialization code for the application
-  // The code to retrieve the data, save it to a JSON object will be performed here
-  // It will be performed when the app is first opened OR we can force refresh it (will implement later)
-  // constructor(props) {
-  //   super(props);
-  //   this.saveEventData();
-  // }
-
-  // // This function refreshes the event (gathers data from website, stores it in asyncstorage)
-  // async saveEventData() {
-  //   // Note this is using dummy data for the time being!
-  //   AsyncStorage.setItem('events', JSON.stringify(eventTestDataFile));
-  // }
+  AppFunctions = new AppFunc();
 
   render() {
+    // Check the event data and save it if necessary (this function handles checking to see if it has been updated as well)
+    this.AppFunctions.retrieveAndSaveEventData('https://calendar.kennesaw.edu/department/college_of_computing_and_software_engineering/calendar/xml');
+
+    // Check to see if liked events exists in asyncstorage - if it doesn't created
+    this.AppFunctions.checkLikedEvents();
+
     return (
       <View style={globalStyles.container}>
         <ImageBackground
