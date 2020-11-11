@@ -24,7 +24,11 @@ import EventDetails from './Screens/EventDetails.js';
 import Maps from './Screens/Maps';
 import Settings from './Screens/Settings';
 import LikedEvents from "./Screens/LikedEvents.js";
-
+import Maps from "./Screens/Maps";
+import Settings from "./Screens/Settings";
+import SocialMediaTwitter from "./Screens/SocialMediaTwitter";
+import SocialMediaFacebook from "./Screens/SocialMediaFacebook";
+import CcseHomepage from "./Screens/CcseHomepage";
 
 
 // Import test data
@@ -37,6 +41,7 @@ const Stack = createStackNavigator();
 
 export default class App extends Component {
 
+  // Import app functions file that contains global app functions
   AppFunctions = new AppFunc();
 
   render() {
@@ -56,15 +61,15 @@ export default class App extends Component {
               and link each screen together. */}
           <NavigationContainer>
             <Drawer.Navigator>
-
-              <Drawer.Screen name = "Home" component = {Home} />
-              <Drawer.Screen name = "Events" component = {EventsList} />
+              <Drawer.Screen name="Home" component={Home} />
+              <Drawer.Screen name="Events" component={EventsList} />
+              <Drawer.Screen name="Liked Events" component={LikedEvents} />
+              <Drawer.Screen name="Campus Maps" component={Maps} />
+              <Drawer.Screen name="Settings" component={Settings} />
+              <Drawer.Screen name="CCSE @ KSU.edu" component={CcseHomepage} />
+              <Drawer.Screen name="CCSE on Twitter" component={SocialMediaTwitter} />
+              <Drawer.Screen name="CCSE on Facebook" component={SocialMediaFacebook} />
               <Drawer.Screen name = "EventsDetails" component = {EventDetails} />
-              <Drawer.Screen name = "Campus Maps" component = {Maps} />
-              <Drawer.Screen name = "Settings" component = {Settings} />
-              <Drawer.Screen name = "Liked Events" component={LikedEvents} />
-
-
             </Drawer.Navigator>
           </NavigationContainer>
         </ImageBackground>

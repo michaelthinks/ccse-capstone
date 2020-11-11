@@ -1,4 +1,7 @@
-import { StyleSheet, Platform } from 'react-native';
+import { StyleSheet, Platform, Dimensions } from 'react-native';
+
+const deviceHeight = Dimensions.get('window').height;
+const deviceWidth = Dimensions.get('window').width;
 
 export const globalStyles = StyleSheet.create({
     container: {
@@ -14,6 +17,11 @@ export const globalStyles = StyleSheet.create({
     contentContainer: {
         flex: 0.90,
         flexDirection: 'row',
+    },
+    
+    webViewContainer: {
+      flexDirection: 'row',
+      width: deviceWidth,
     },
 
     eventList: {
