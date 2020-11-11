@@ -27,6 +27,9 @@ export default class Home extends Component {
             </View>
             {/* This view contains the navigation buttons on the home page */}
             <View style={globalStyles.homePageContentContainer}>
+              <View style={globalStyles.homePageUpperContainer}>
+                {/* This View is just used to make room for the background on the top half of the page so the buttons don't show over it */}
+              </View>
               <View style={globalStyles.homePageButtonContainer}>
                   <View style={globalStyles.homePageButton}>
                       {/* Note about navigate - you must use the NAME you gave to the screen in App.js, NOT the actual file name */}
@@ -36,6 +39,16 @@ export default class Home extends Component {
                           title="Events"
                           color="#febc11"
                           accessibilityLabel="This button will navigate to the events page." 
+                      />
+                  </View>
+                  <View style={globalStyles.homePageButton}>
+                      {/* Note about navigate - you must use the NAME you gave to the screen in App.js, NOT the actual file name */}
+                      <Button
+                          style={globalStyles.homePageButton} 
+                          onPress={() => this.props.navigation.navigate('Liked Events')}
+                          title="Liked Events"
+                          color="#febc11"
+                          accessibilityLabel="This button will navigate to the Liked Events page." 
                       />
                   </View>
                   <View style={globalStyles.homePageButton}>

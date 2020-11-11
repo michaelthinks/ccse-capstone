@@ -8,4 +8,7 @@ Extensions:
 React Native by Microsoft
 React Native/React/Redux Snippets by EQuimper
 
+Third party libraries that need to be mentioned
+xml2js
+
 Test
