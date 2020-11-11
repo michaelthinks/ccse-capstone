@@ -20,7 +20,6 @@ export const globalStyles = StyleSheet.create({
     },
     
     webViewContainer: {
-      flex: 0.90,
       flexDirection: 'row',
       width: deviceWidth,
     },
