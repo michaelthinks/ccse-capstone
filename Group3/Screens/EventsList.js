@@ -36,7 +36,7 @@ export default class EventsList extends Component {
         });
     }
 
-    likeEvent(name) {
+    likeEvent(name, updateEventsListState) {
         // This is sued as a cache for the following script to add events too - React Native won't allow you to directly delete array elements
         // from the global variable, so we build our liked events in this cache and then reassign it to the global variable
         var likedCache = [];
@@ -86,9 +86,11 @@ export default class EventsList extends Component {
         // Save liked events to AsyncStorage
         this.AppFunctions.storeDataItem("likedEvents", { "liked": likedCache })
 
-        // Update state so the page updates
-        this.setState({updatedScreen: true});
-
+        // Check to see if updateState is set, if so, update state so the page updates
+        // This should ONLY be used on the events list page - if this argument is set when this function is called from another screen, an error will occur
+        if (updateEventsListState) {
+            this.setState({updateScreen: true});
+        }
         // Prints liked events array for debugging purposes
         //console.log(JSON.stringify(global.likedEvents.liked));
     }
@@ -150,7 +152,7 @@ export default class EventsList extends Component {
                             <Text key={item + "DescriptionText"} numberOfLines={5}>{item.FriendlyDescription}</Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback key={item + "LikeContainer"} onPress={() => { this.likeEvent(item.EventName) }}>
+                    <TouchableWithoutFeedback key={item + "LikeContainer"} onPress={() => { this.likeEvent(item.EventName, true) }}>
                         <View key={item + "Like"} style={globalStyles.likeEventIcon}>  
                             {/* Choose the appropriate icon depending on whether or not the event is liked */}
                             {this.checkLiked(item.EventName)}
