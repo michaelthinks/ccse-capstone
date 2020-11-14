@@ -26,6 +26,7 @@ import Settings from "./Screens/Settings";
 import SocialMediaTwitter from "./Screens/SocialMediaTwitter";
 import SocialMediaFacebook from "./Screens/SocialMediaFacebook";
 import CcseHomepage from "./Screens/CcseHomepage";
+import EventDetails from "./Screens/EventDetails";
 
 
 // Import test data
@@ -66,9 +67,11 @@ export default class App extends Component {
               <Drawer.Screen name="CCSE @ KSU.edu" component={CcseHomepage} />
               <Drawer.Screen name="CCSE on Twitter" component={SocialMediaTwitter} />
               <Drawer.Screen name="CCSE on Facebook" component={SocialMediaFacebook} />
+              <Drawer.Screen name="Event Details" component={EventDetails} />
             </Drawer.Navigator>
           </NavigationContainer>
         </ImageBackground>
+
       </View>
     );
   }

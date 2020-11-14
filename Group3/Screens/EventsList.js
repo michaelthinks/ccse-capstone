@@ -24,9 +24,11 @@ export default class EventsList extends Component {
         super();
     }
 
-    goToEvent() {
-        // This is a dummy function for now - it will forward to the event details page
-        alert("Event Selected!");
+    // This function will navigate to the event details page to view more information about the event
+    goToEvent(event) {
+        this.props.navigation.navigate('Event Details', {
+            eventToView: event,
+        });
     }
 
     // This will reload the page when the user navigates to it so that it updates with the most current information
@@ -88,11 +90,15 @@ export default class EventsList extends Component {
 
         // Check to see if updateState is set, if so, update state so the page updates
         // This should ONLY be used on the events list page - if this argument is set when this function is called from another screen, an error will occur
-        if (updateEventsListState) {
-            this.setState({updateScreen: true});
-        }
+
+        //this.setState({updatedScreen: true});
         // Prints liked events array for debugging purposes
         //console.log(JSON.stringify(global.likedEvents.liked));
+    }
+
+    // This function will trigger set state and cause the page to refresh
+    updateEvents() {
+        this.setState({updatedScreen: true});
     }
 
     // This function is used to determine whether or not the given event has been liked - it is used to figure out which liked icon to use in the events list
@@ -129,7 +135,7 @@ export default class EventsList extends Component {
             
             <View key={item} style={globalStyles.eventListItemHeaderContainer}>
                 
-                <TouchableWithoutFeedback key={item + "ThumbnailContainer"} onPress={(this.goToEvent)}>
+                <TouchableWithoutFeedback key={item + "ThumbnailContainer"} onPress={() => this.goToEvent(item.EventName)}>
                     <View key={item + "Thumbnail"} style={globalStyles.eventListItemThumbnail}>
                         <Image key={item + "ThumbnailImage"}
                             style={{width: 400, height: 75}} 
@@ -138,7 +144,7 @@ export default class EventsList extends Component {
                     </View>
                 </TouchableWithoutFeedback>
 
-                <TouchableWithoutFeedback key={item + "TitleContainer"} onPress={(this.goToEvent)}>
+                <TouchableWithoutFeedback key={item + "TitleContainer"} onPress={() => this.goToEvent(item.EventName)}>
                     <View key={item + "Title"} style={globalStyles.eventListItemTitleContainer}>
                         <Text key={item + "TitleText"} style={globalStyles.eventListItemTitle}>{item.EventName}</Text>    
                     </View>
@@ -147,12 +153,12 @@ export default class EventsList extends Component {
                 
                 <View key={item + "ContentContainer"} style={globalStyles.eventListItemContentContainer}>
 
-                    <TouchableWithoutFeedback key={item + "DescriptionContainer"} onPress={(this.goToEvent)}>
+                    <TouchableWithoutFeedback key={item + "DescriptionContainer"} onPress={() => this.goToEvent(item.EventName)}>
                         <View key={item + "Description"} style={globalStyles.eventListItemDescription}>
                             <Text key={item + "DescriptionText"} numberOfLines={5}>{item.FriendlyDescription}</Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback key={item + "LikeContainer"} onPress={() => { this.likeEvent(item.EventName, true) }}>
+                    <TouchableWithoutFeedback key={item + "LikeContainer"} onPress={() => { this.likeEvent(item.EventName); this.updateEvents() } }>
                         <View key={item + "Like"} style={globalStyles.likeEventIcon}>  
                             {/* Choose the appropriate icon depending on whether or not the event is liked */}
                             {this.checkLiked(item.EventName)}
