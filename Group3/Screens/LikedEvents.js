@@ -43,12 +43,12 @@ export default class LikedEvents extends Component {
           <TouchableWithoutFeedback key={item + "ThumbnailContainer"} onPress={(this.goToEvent)}>
               <View key={item + "Thumbnail"} style={globalStyles.eventListItemThumbnail}>
               <Image key={item + "ThumbnailImage"}
-                            style={{width: 600, height: 75}}
-                            resizeMode={'center'} 
+                            style={{width: 400, height: 75}}
                             source={{uri: item.EventImage,}} 
                         />
               </View>
           </TouchableWithoutFeedback>
+          
 
           <TouchableWithoutFeedback key={item + "TitleContainer"} onPress={(this.goToEvent)}>
               <View key={item + "Title"} style={globalStyles.eventListItemTitleContainer}>

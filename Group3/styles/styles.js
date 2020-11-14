@@ -225,5 +225,62 @@ export const globalStyles = StyleSheet.create({
         alignItems: 'center',
         alignSelf: 'center',
         fontSize: 30,
+      },
+
+      eventDetailsHeaderContainer: {
+        flex: 0.15, 
+        flexDirection: 'row',
+        alignItems: 'center',
+      },
+
+      eventDetailsThumbnailContainer: {
+        
+      },
+
+      eventDetailsThumbnail: {
+        width:400,
+        height: 75,
+        marginRight: 10,
+      },
+
+      eventDetailsTitleContainer: {
+        justifyContent: 'center',
+        alignSelf: 'center',
+        alignItems: 'center',
+      },
+
+      eventDetailsTitle: {
+        fontSize: 30,
+        fontWeight: "bold",
+        justifyContent: 'center',
+        alignSelf: 'center',
+        alignItems: 'center',
+      },
+
+      eventDetailsDateContainer: {
+        flex: 0.3,
+      },
+  
+      eventDetailsDate: {
+        marginBottom: 0,
+        justifyContent: 'center',
+      },
+
+      eventDetailsContentContainer: {
+        flex: 0.2,
+        flexDirection: 'column',
+        marginLeft: 10,
+        marginRight: 10,
+      },
+
+      eventDetailsWebView: {
+        flex: 0.7,
+        flexDirection: 'column',
+        justifyContent: "flex-start",
+        width: deviceWidth,
+      },
+
+      addToCalendarButton: {
+        width: deviceWidth,
       }
 })
