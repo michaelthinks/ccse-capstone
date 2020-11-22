@@ -282,5 +282,9 @@ export const globalStyles = StyleSheet.create({
 
       addToCalendarButton: {
         width: deviceWidth,
+      },
+
+      hideEntry: {
+        fontSize: 1,
       }
 })

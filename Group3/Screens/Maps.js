@@ -1,12 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, Text, View, ImageBackground, TouchableOpacity, Linking, Button, SafeAreaView, Image, SectionList, TouchableWithoutFeedback } from 'react-native';
+import { Text, View, Button, SafeAreaView, Image, TouchableWithoutFeedback } from 'react-native';
 import { globalStyles } from '../styles/styles.js';
 import { ScrollView } from 'react-native-gesture-handler';
-import { NavigationContainer, DrawerActions } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import eventData from '../TestData/testData.json';
+import { DrawerActions } from '@react-navigation/native';
 
 // Properties to control what image (campus map) we are displaying
 kennesawImage = false;
