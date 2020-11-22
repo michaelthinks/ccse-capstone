@@ -1,9 +1,7 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { StyleSheet, Button, SafeAreaView, TouchableWithoutFeedback, Image, Text, View, ImageBackground, TouchableOpacity, Linking } from 'react-native';
-import { drawerContainer, DrawerActions } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
+import { Button, SafeAreaView, TouchableWithoutFeedback, Image, View, ImageBackground } from 'react-native';
+import { DrawerActions } from '@react-navigation/native';
 import { globalStyles } from '../styles/styles.js';
 
 

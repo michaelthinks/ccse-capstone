@@ -1,14 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, Text, View, ImageBackground, TouchableOpacity, Linking, Button, SafeAreaView, Image, SectionList, TouchableWithoutFeedback } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import { Text, View, Linking, Button, SafeAreaView, Image, TouchableWithoutFeedback } from 'react-native';
 import { globalStyles } from '../styles/styles.js';
-import { ScrollView } from 'react-native-gesture-handler';
-import { NavigationContainer, DrawerActions } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { WebView } from 'react-native-webview';
-import eventData from '../TestData/testData.json';
 import AppFunc from '../Scripts/AppFunctions.js';
 import EventsList from './EventsList.js';
 
@@ -41,20 +35,35 @@ export default class EventDetails extends Component {
 
     render() {
 
-        // Get the parameters passed to EventDetails so we can load the correct event
-        const { eventToView } = this.props.route.params;
+
+        var eventToView  = this.props.route.params ? this.props.route.params.eventToView : "surprise";
 
         // This variable will hold all of the event data once we search through the global event list and find it
         var event;
 
-        // Search through the global event list for the correct event
-        global.eventsDataSource.forEach(eventElement => {
-            // Check to see if we've found the right event in the events list
-            if (eventElement.EventName == eventToView) {
-                // Assign the object to event so we can access it to render the event
-                event = eventElement;
-            }
-        })
+        if (eventToView == "surprise") {
+            event = {
+                "EventId": "0",
+                "EventName": "Hey There!",
+                "EventDate": "2030-01-01T17:00:00-05:00",
+                "EventImage": "https://localist-images.azureedge.net/photos/32139136800987/small/f8122f4cd64268b65020c9066822a72bb434a790.jpg",
+                "EventDescription": "Well hello there! Looks like you stumbled on our easter egg! We hope you have a wonderful day :)<br /><br />This app was developed by:<br /><strong> Paul, Michael, Patrick, Seth, and Novann</strong>",
+                "FriendlyDescription" : "This is the description with all the HTML tags removed",
+                "Liked": true,
+                "EventAltDate": "2030-01-01T17:00:00-05:00",
+                "EventLink": "https://www.kennesaw.edu" 
+              };
+        }
+        else {
+            // Search through the global event list for the correct event
+            global.eventsDataSource.forEach(eventElement => {
+                // Check to see if we've found the right event in the events list
+                if (eventElement.EventName == eventToView) {
+                    // Assign the object to event so we can access it to render the event
+                    event = eventElement;
+                }
+            })
+        }
         
         return(
             // SafeAreaView is iOS specific and doesn't do anything on Android. It keeps the main 
@@ -95,7 +104,7 @@ export default class EventDetails extends Component {
 
                     <View style={globalStyles.addToCalendarButton}>
                         <TouchableWithoutFeedback>
-                            <Button onPress={ () => alert("Add To Calendar") } color="#febc11" title="Add To Calendar" accessibilityLabel="This button will add the event to the system calendar" />
+                            <Button onPress={ () => this.EventFunctions.openCal(event.EventName, event.EventAltDate) } color="#febc11" title="Add To Calendar" accessibilityLabel="This button will add the event to the system calendar" />
                         </TouchableWithoutFeedback>
                     </View>
 
@@ -106,7 +115,7 @@ export default class EventDetails extends Component {
                         </View>
 
                         <View style={globalStyles.eventDetailsDateContainer}>
-                            <Text style={globalStyles.eventDetailsDate}>{event.EventDate}</Text>
+                            <Text style={globalStyles.eventDetailsDate}>{this.EventFunctions.formatDate(event.EventAltDate)}</Text>
                         </View>
                     </View>
                         

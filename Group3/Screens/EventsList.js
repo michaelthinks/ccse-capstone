@@ -1,13 +1,8 @@
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { StyleSheet, FlatList, Text, View, ImageBackground, TouchableOpacity, Linking, Button, SafeAreaView, Image, SectionList, TouchableWithoutFeedback } from 'react-native';
-import AsyncStorage from '@react-native-community/async-storage';
+import { FlatList, Text, View, Linking, SafeAreaView, Image, TouchableWithoutFeedback, Alert } from 'react-native';
 import { globalStyles } from '../styles/styles.js';
-import { ScrollView } from 'react-native-gesture-handler';
-import { NavigationContainer, DrawerActions } from '@react-navigation/native';
-import { createStackNavigator } from '@react-navigation/stack';
-import { createDrawerNavigator } from '@react-navigation/drawer';
-import eventData from '../TestData/testData.json';
+import { DrawerActions, NavigationContainer } from '@react-navigation/native';
 import AppFunc from '../Scripts/AppFunctions.js';
 
 state = {
@@ -39,61 +34,85 @@ export default class EventsList extends Component {
     }
 
     likeEvent(name, updateEventsListState) {
-        // This is sued as a cache for the following script to add events too - React Native won't allow you to directly delete array elements
-        // from the global variable, so we build our liked events in this cache and then reassign it to the global variable
-        var likedCache = [];
+        // Check to see if the user found the easter egg
+        // If we don't do this, it'll crash the app if they like the event easter egg
+        if (name == "surprise") {
+            Alert.alert(":D", "Thanks for liking us! You're pretty cool too.");
+        }
+        else {
+            // This is sued as a cache for the following script to add events too - React Native won't allow you to directly delete array elements
+            // from the global variable, so we build our liked events in this cache and then reassign it to the global variable
+            var likedCache = [];
 
-        global.eventsDataSource.forEach(eventElement => {
-            // Check to see if we've found the right event in the events list
-            if (eventElement.EventName == name) {
-                if (global.likedEvents.liked.length < 1) {
-                    console.log("No liked elements exist - adding this one as the first");
-                    likedCache.push(eventElement);
+            // This variable helps us keep track of whether or not we've found a match in the following for loop
+            var deletedElement = false;
+
+            global.eventsDataSource.forEach(eventElement => {
+                // Check to see if we've found the right event in the events list
+                if (eventElement.EventName == name) {
+                    if (global.likedEvents.liked.length < 1) {
+                        console.log("No liked elements exist - adding this one as the first");
+                        likedCache.push(eventElement);
+
+                        // Add new event to notifications list
+                        if (global.settings.likedEvents) {
+                            this.AppFunctions.scheduleNotification("A Liked CCSE Event Is Starting Soon!", eventElement.EventName, new Date(eventElement.EventDate).valueOf());       
+                        }
+                    }
+                    else {
+                        // Iterate through the current array of liked events
+                        for (var i = 0; i < global.likedEvents.liked.length; i++) {
+                            // If name equals a named in the likedEvents list, then it means we need to unlike it
+                            if (global.likedEvents.liked[i].EventName == name) {
+                                // Just ignore the event and DON'T add it to the liked cache
+                                // Set deletedElement to true so we know that an element was disliked
+                                console.log("deleting event");
+                                deletedElement = true;
+                            }
+                            else {
+                                // Otherwise, add it to our liked cache
+                                console.log("adding already existing event to cache");
+                                likedCache.push(global.likedEvents.liked[i]);
+                            }
+                        }
+
+                        // Check deleted Element - if it's still false, that means we have a new likedEvent and we need to add it to the cache
+                        if (!deletedElement) {
+                            likedCache.push(eventElement);
+                            console.log("New Event Added");
+
+                            // Add new event to notifications list
+                            if (global.settings.likedEvents) {
+                                this.AppFunctions.scheduleNotification("A Liked CCSE Event Is Starting Soon!", eventElement.EventName, new Date(eventElement.EventDate).valueOf());
+                            }
+                        }
+                    }
                 }
                 else {
-                    // This variable helps us keep track of whether or not we've found a match in the following for loop
-                    var deletedElement = false;
-                    // Iterate through the current array of liked events
-                    for (var i = 0; i < global.likedEvents.liked.length; i++) {
-                        // If name equals a named in the likedEvents list, then it means we need to unlike it
-                        if (global.likedEvents.liked[i].EventName == name) {
-                            // Just ignore the event and DON'T add it to the liked cache
-                            // Set deletedElement to true so we know that an element was disliked
-                            console.log("deleting event");
-                            deletedElement = true;
-                        }
-                        else {
-                            // Otherwise, add it to our liked cache
-                            console.log("adding already existing event to cache");
-                            likedCache.push(global.likedEvents.liked[i]);
-                        }
-                    }
+                    // Do nothing - element does not match
+                }
+                
+            });
 
-                    // Check deleted Element - if it's still false, that means we have a new likedEvent and we need to add it to the cache
-                    if (!deletedElement) {
-                        likedCache.push(eventElement);
-                        console.log("New Event Added");
-                    }
+            // Save likedEvents to the global variable
+            global.likedEvents.liked = likedCache;
+
+            // Save liked events to AsyncStorage
+            this.AppFunctions.storeDataItem("likedEvents", { "liked": likedCache })
+
+            // Check if an element was deleted - if so, cancel notification for liked events and re-register the remaining ones
+            if (deletedElement) {
+                // There isn't a way to remove a single event notification, so cancel all liked event notifications and
+                // reload them
+                this.AppFunctions.cancelAllNotifications();
+
+                if(global.settings.likedEvents) {
+                    global.likedEvents.liked.forEach(eventElement => {
+                        this.AppFunctions.scheduleNotification("A Liked CCSE Event Is Starting Soon!", eventElement.EventName, new Date(eventElement.EventDate).valueOf());
+                    });
                 }
             }
-            else {
-                // Do nothing - element does not match
-            }
-            
-        });
-
-        // Save likedEvents to the global variable
-        global.likedEvents.liked = likedCache;
-
-        // Save liked events to AsyncStorage
-        this.AppFunctions.storeDataItem("likedEvents", { "liked": likedCache })
-
-        // Check to see if updateState is set, if so, update state so the page updates
-        // This should ONLY be used on the events list page - if this argument is set when this function is called from another screen, an error will occur
-
-        //this.setState({updatedScreen: true});
-        // Prints liked events array for debugging purposes
-        //console.log(JSON.stringify(global.likedEvents.liked));
+        }
     }
 
     // This function will trigger set state and cause the page to refresh
@@ -123,6 +142,97 @@ export default class EventsList extends Component {
         console.log("uri: " + imageUri);
         return "uri:" + imageUri;
 
+    }
+
+    // This function properly formats the date - the RSS data gives the date in 24 hour format
+    // This takes the EventAltDate from the RSS data, processes it, and gives it back as a 12 hour
+    // date. This function was built with the help of this StackOverflow question:
+    // https://stackoverflow.com/questions/4898574/converting-24-hour-time-to-12-hour-time-w-am-pm-using-javascript
+    formatDate(date) {
+        var newDate = new Date(date);
+        var hours = newDate.getHours();
+        var min = newDate.getMinutes();
+        var sec = newDate.getSeconds();
+        var tod = "AM";
+        var hh = hours;
+
+        console.log(hours);
+        console.log(min);
+        console.log(sec);
+
+        if (hours >= 12) {
+            hh = hours - 12;
+            console.log(hh);
+            tod = "PM";
+        }
+
+        if (hh == 0) {
+            hh = 12;
+        }
+
+        min = min < 10 ? "0" + min : min;
+
+        sec = sec < 10 ? "0" + sec : sec;
+
+        return newDate.toDateString() + " " + hh + ":" + min + " " + tod;
+
+    }
+
+    // This function takes a date as an argument and opens the system Calendar app
+    // eventName is used in the prototype code below
+    async openCal(eventName, date) {
+        // This opens the devices calendar to the correct day but does not open up a new 
+        // event entry
+        // Import the date and covert it to milliseconds since UNIX epoch
+        var newDate = new Date(date); 
+        var msSinceEpoch = newDate.getTime();
+
+        // Find out which platform the user is using and open the proper URL
+        if(Platform.OS === 'ios') {
+            Linking.openURL('calshow:' + msSinceEpoch);
+        } else if(Platform.OS === 'android') {
+            Linking.openURL('content://com.android.calendar/time/' + msSinceEpoch);
+        }
+
+        // The following is prototype code for opening the devices external calendar to the 
+        // event entry screen with the proper information filled in (event name, time, etc.).
+        // This uses the built-in Expo Calendar API. I received errors when testing with Android
+        // and testing was never performed with iOS. Researched showed that the best way would be 
+        // to use native Android/iOS code to create the event. However, the project would need to be 
+        // converted to a standard React Native project rather than an Expo project to use native code
+        //
+        // var endDate = new Date(date);
+        // var endDate = endDate.setHours(endDate.getHours() + 1);
+
+        // if(Platform.OS === 'ios') {
+        //     Linking.openURL('calshow:');
+        // } else if(Platform.OS === 'android') {
+        //     await this.AppFunctions.calendarPermissions();
+        //     const calendars = await Calendar.getCalendarsAsync();
+        //     const calendar = calendars.find(({allowsModifications})=>allowsModifications);
+        //     console.log(calendar.id);
+
+        //     await Calendar.getCalendarPermissionsAsync()
+        //     .then((status) => {
+        //         if (status.granted) {
+
+        //         }
+        //         else {
+        //             alert("You did not grant Calendar Permissions.");
+
+        //         }
+        //     })
+        //     .then(
+        //         await Calendar.createEventAsync(calendar.id, {
+        //             title: eventName,
+        //             startDate: date,
+        //             endDate: endDate,
+        //         },).then((id) => console.log(id))
+        //     )
+        //     .catch(alert("You did not grant Calendar Permissions."));
+
+        
+        
     }
 
     render() {
@@ -173,6 +283,7 @@ export default class EventsList extends Component {
         return(
             // SafeAreaView is iOS specific and doesn't do anything on Android. It keeps the main 
             // View are below the notch on an iPhone
+            
             <SafeAreaView style={globalStyles.mainContainer}>
                 {/* Sets touchbar back to being visible */}
                 <StatusBar style="auto" hidden={false} />

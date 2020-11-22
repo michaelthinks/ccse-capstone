@@ -7,3 +7,7 @@ npm install @react-navigation/native @react-navigation/stack @react-navigation/b
 react-native-webview
 react-native-xml2js
 @react-native-community/async-storage
+expo-calendar
+expo-permissions
+expo-notifications
+expo-constants

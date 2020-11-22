@@ -1,19 +1,16 @@
-import { StatusBar } from "expo-status-bar";
-import React, { Component, useCallback } from "react";
+import { Component, useCallback } from "react";
 import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  TouchableOpacity,
-  Linking, Alert
+  Linking, Alert, Platform
 } from "react-native";
 import AsyncStorage from '@react-native-community/async-storage';
-import { NavigationContainer, DrawerActions } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
-import { createDrawerNavigator } from "@react-navigation/drawer";
+import * as Calendar from 'expo-calendar';
+import { Notifications } from "expo";
+import * as Permissions from "expo-permissions";
+import Constants from 'expo-constants';
 
 export default class AppFunctions extends Component {
+
+  
   // loadAndSaveEventData fetches the RSS data from the given URL (the CCSE events RSS feed normally)
   // It uses the react-native-xml2js library to convert the XML data into JSON data
   async retrieveAndSaveEventData(dataUrl) {
@@ -58,6 +55,12 @@ export default class AppFunctions extends Component {
 
       // Save new events to global events variable for use throughout app
       global.eventsDataSource = events;
+
+      // Notify the user that new events are available
+      // Check to see if notifications are enabled first
+      if (global.settings.newEvents) {
+        this.sendNotification("New Events Available", "New CCSE Events have been created!");
+      }
     }
   }
   
@@ -99,7 +102,6 @@ export default class AppFunctions extends Component {
     .then((likedEventsCheck) => {
         // Check the likedEventsCheck variable - if it doesn't exist, it's never been created, so create it
         if (likedEventsCheck == undefined || likedEventsCheck == null) {
-          console.log("no logged events, creating it");
           // Create a new data item in AsyncStorage - just assign it an empty JSON object
           this.storeDataItem("likedEvents", { "liked":[] })
 
@@ -107,13 +109,19 @@ export default class AppFunctions extends Component {
           global.likedEvents = { "liked":[] };
         }
         else {
-          console.log("liked events exists");
           // likedEvents already exists - load it into a global variable for use within the app
           global.likedEvents = likedEventsCheck;
         }
     });
   }
 
+  // This function checks for Calendar permissions
+  async calendarPermissions() {
+    const { status } = await Calendar.requestCalendarPermissionsAsync();
+    if (status === 'granted') {
+      const calendars = await Calendar.getCalendarsAsync();
+    }
+  }
 
   // formatEventData is specific for loading events
   // it strips unecessary JSON data that is imported from the RSS feed, reformats some of the
@@ -153,8 +161,6 @@ export default class AppFunctions extends Component {
       eventJsonData[key].EventId = key;
 
     }
-    //var jsonData = rawJsonData.rss["channel"];
-    //console.log(JSON.stringify(eventJsonData));
 
     return eventJsonData;
   }
@@ -175,4 +181,88 @@ export default class AppFunctions extends Component {
       }
     }, [url]);
   };
+
+  // Notification functions
+  // 
+  // Information:
+  // https://gist.github.com/VeraZab/c3f13d51588bcfdf6799da65decf26fa
+  // https://dev.to/technoplato/show-notifications-in-foreground-on-expo-ios-application-4mg6#:~:text=Show%20Notifications%20in%20Foreground%20on%20Expo%20iOS%20Application!!,-%23javascript%20%23expo%20%23&text=2)%20Copy%20the%20token%20that,when%20your%20app%20is%20foregrounded.
+  // 
+  // We need to ask for Notification permissions for ios devices - not relevant on Android devices
+  async getPermissions() {  
+    // Check if the device is runing ios
+    if (Platform.OS === 'ios') {
+      const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      if (Constants.isDevice && status === 'granted')
+        console.log('Notification permissions granted.');
+    }
+    else {
+      // Do nothing - user has an Android device
+    }
+  }
+
+  // Sends an immediate notification to the user
+  sendNotification(nTitle, nBody) {
+    Notifications.scheduleLocalNotificationAsync(
+      {
+        title: nTitle,
+        body: nBody,
+      },
+      {
+        time: new Date().valueOf() + 2,
+      },
+    );
+  }
+
+  // This schedules a notification for the future
+  // Returns the notification ID so it can be stored in case we need to delete it later
+  async scheduleNotification(nTitle, nBody, nTime) {
+    // Check to see if user has notifications enabled for liked events
+    if (global.settings.likedEvents == true) {
+       await Notifications.scheduleLocalNotificationAsync(
+        {
+          title: nTitle,
+          body: nBody,
+        },
+        {
+          // Schedule the notifications 30 minutes before the event happens
+          time: nTime - 900,
+        }
+      )
+      .then((id) => { return id });
+
+    }
+    // If user has notifications turned off, return undefined
+    else {
+      return 0;
+    }
+  }
+
+  // Loads the settings state variable from AsyncStorage into global variable for access across app
+  loadSettingsState() {
+    this.loadDataItem("settings")
+      .then((data) => {
+        if (data == undefined || data == "" || data === undefined) {
+          // Assign Default Settings Values
+          global.settings = {
+            likedEvents: true,
+            newEvents: true,
+          }
+        }
+        else {
+          // Load settings into global settings variable
+          global.settings = data;
+        }
+      });
+  }
+
+  // Cancels a single notification
+  cancelNotification(notifId) {
+    Notifications.cancelScheduledNotificationAsync(notifId);
+  }
+
+  // Cancels all scheduled future notifications
+  cancelAllNotifications() {
+    Notifications.cancelAllScheduledNotificationsAsync();
+  }
 }
