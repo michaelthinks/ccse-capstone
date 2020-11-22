@@ -1,12 +1,11 @@
 {
   "expo": {
-    "name": "Group3",
-    "slug": "Group3",
+    "name": "CCSE Events",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/appicon.png",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/ksusplash.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
@@ -16,8 +15,13 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "android": {
+      "package": "edu.kennesaw.ccseevents",
+      "versionCode": 1
+    },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "edu.kennesaw.ccseevents"
     },
     "web": {
       "favicon": "./assets/favicon.png"
