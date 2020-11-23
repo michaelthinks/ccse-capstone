@@ -118,15 +118,18 @@ export default class EventsList extends Component {
     }
 
     // This function will trigger set state and cause the page to refresh
-    async updateEvents() {
+    async updateEvents(wasEventLiked) {
         // Call retrieve and save event data to see if there are new events then refresh the page
         await this.AppFunctions.retrieveAndSaveEventData('https://calendar.kennesaw.edu/department/college_of_computing_and_software_engineering/calendar/xml');
 
         // Force screen refresh
         this.setState({updatedScreen: true})
 
-        // Show the user a toast - Android only, obviously
-        ToastAndroid.show("Refreshing...", ToastAndroid.SHORT);
+        // Check wasEventLiked flag - if it's true, we don't need to display this notification
+        if (!wasEventLiked || wasEventLiked == undefined) {
+            // Show the user a toast - Android only, obviously
+            ToastAndroid.show("Refreshing...", ToastAndroid.SHORT);
+        }
     }
 
     // This function is used to determine whether or not the given event has been liked - it is used to figure out which liked icon to use in the events list
@@ -261,7 +264,7 @@ export default class EventsList extends Component {
                             <Text key={item + "DescriptionText"} numberOfLines={5}>{item.FriendlyDescription}</Text>
                         </View>
                     </TouchableWithoutFeedback>
-                    <TouchableWithoutFeedback key={item + "LikeContainer"} onPress={() => { this.likeEvent(item.EventName); this.updateEvents() } }>
+                    <TouchableWithoutFeedback key={item + "LikeContainer"} onPress={() => { this.likeEvent(item.EventName); this.updateEvents(true) } }>
                         <View key={item + "Like"} style={globalStyles.likeEventIcon}>  
                             {/* Choose the appropriate icon depending on whether or not the event is liked */}
                             {this.checkLiked(item.EventName)}
@@ -290,7 +293,7 @@ export default class EventsList extends Component {
                             <Text style={globalStyles.headerText}>Events</Text>
                         </View>
 
-                        <TouchableWithoutFeedback onPress={() => this.setState(this.updateEvents)}>
+                        <TouchableWithoutFeedback onPress={() => {this.updateEvents(false)}}>
                         <View style={globalStyles.refreshIcon}>
                             <Image source={require('../assets/refreshicon.png')} />
                         </View>

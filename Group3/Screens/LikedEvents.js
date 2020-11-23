@@ -10,7 +10,7 @@ import {
   View,
   SafeAreaView,
   Image,
-  TouchableWithoutFeedback,
+  TouchableWithoutFeedback, ToastAndroid
 } from "react-native";
 import { globalStyles } from "../styles/styles.js";
 import { DrawerActions } from "@react-navigation/native";
@@ -95,7 +95,7 @@ export default class LikedEvents extends Component {
             </View>
 
             <TouchableWithoutFeedback
-              onPress={() => this.setState({})}
+              onPress={() => { this.setState({}); ToastAndroid.show("Refreshing...", ToastAndroid.SHORT);}}
             >
               <View style={globalStyles.refreshIcon}>
                 <Image source={require("../assets/refreshicon.png")} />
