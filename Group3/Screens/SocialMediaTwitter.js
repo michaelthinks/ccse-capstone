@@ -1,3 +1,6 @@
+// SocialMediaTwitter.js is essentially a webview that displays the 
+// CCSE Twitter page.
+
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { Text, View, Linking, SafeAreaView, Image, TouchableWithoutFeedback } from 'react-native';
@@ -26,7 +29,7 @@ export default class SocialMediaTwitter extends Component {
                     <View style={globalStyles.headerText}>
                         <Text style={globalStyles.headerText}>Twitter</Text>
                     </View>
-
+                    {/* Button to open the page in the devices external browser */}
                     <TouchableWithoutFeedback onPress={() => Linking.openURL('https://twitter.com/KSUCCSE')}>
                     <View style={globalStyles.refreshIcon}>
                         <Image source={require('../assets/openInBrowser.png')} />

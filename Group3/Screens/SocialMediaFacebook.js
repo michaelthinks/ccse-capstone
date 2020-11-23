@@ -1,3 +1,6 @@
+// SocialMediaFacebook.js is essentially a webview that displays the 
+// CCSE Facebook page.
+
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { Text, View, Linking, SafeAreaView, Image, TouchableWithoutFeedback } from 'react-native';
@@ -26,7 +29,7 @@ export default class SocialMediaFacebook extends Component {
                     <View style={globalStyles.headerText}>
                         <Text style={globalStyles.headerText}>Facebook</Text>
                     </View>
-
+                    {/* Button to open the page in the devices external browser */}
                     <TouchableWithoutFeedback onPress={() => Linking.openURL('https://www.facebook.com/KSUCCSE/')}>
                     <View style={globalStyles.refreshIcon}>
                         <Image source={require('../assets/openInBrowser.png')} />
@@ -34,8 +37,6 @@ export default class SocialMediaFacebook extends Component {
                     </TouchableWithoutFeedback>
                 </View>
                 <WebView source={{uri: 'https://www.facebook.com/KSUCCSE/'}} style={globalStyles.webViewContainer} >
-
-
                 </WebView>
             </SafeAreaView>
         )

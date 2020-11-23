@@ -1,3 +1,6 @@
+// CcseHomepage.js is essentially a webview that displays the 
+// CCSE home page.
+
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { Text, View, Linking, SafeAreaView, Image, TouchableWithoutFeedback } from 'react-native';
@@ -24,9 +27,9 @@ export default class CcseHomepage extends Component {
                         </View>
                     </TouchableWithoutFeedback>
                     <View style={globalStyles.headerText}>
-                        <Text style={globalStyles.headerText}>CCSE @ KSU</Text>
+                        <Text style={globalStyles.headerText}>CCSE@KSU</Text>
                     </View>
-
+                    {/* Button to open the page in the devices external browser */}
                     <TouchableWithoutFeedback onPress={() => Linking.openURL('https://ccse.kennesaw.edu')}>
                     <View style={globalStyles.refreshIcon}>
                         <Image source={require('../assets/openInBrowser.png')} />
@@ -34,8 +37,6 @@ export default class CcseHomepage extends Component {
                     </TouchableWithoutFeedback>
                 </View>
                 <WebView source={{uri: 'https://ccse.kennesaw.edu'}} style={globalStyles.webViewContainer} >
-
-
                 </WebView>
             </SafeAreaView>
         )

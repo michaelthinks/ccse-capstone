@@ -1,3 +1,6 @@
+// Settings.js contains the settings for the app
+// Currently there are only 2 - enable and disable notifications for liked events and new events
+
 import { StatusBar } from "expo-status-bar";
 import React, { Component } from "react";
 import {
@@ -15,6 +18,9 @@ import AppFunctions from "../Scripts/AppFunctions";
 
 export default class Settings extends Component {
 
+  // These state flags are used so that the switch on the pages display correct
+  // If you try to pull their state (enabled or disabled) directly from global.settings.* then
+  // they will not update correct.
   state = {
     likedEvents: global.settings.likedEvents,
     newEvents: global.settings.newEvents,
@@ -55,9 +61,11 @@ export default class Settings extends Component {
 
   render() {
     return (
+      // SafeAreaView is iOS specific and doesn't do anything on Android. It keeps the main 
+      // View are below the notch on an iPhone
       <SafeAreaView style={globalStyles.mainContainer}>
         <StatusBar style="auto" hidden={false} />
-
+        {/* Title bar */}
         <View style={globalStyles.adjustedHeaderContainer}>
           <TouchableWithoutFeedback
             onPress={() =>
@@ -73,6 +81,7 @@ export default class Settings extends Component {
           </View>
         </View>
 
+        {/* Main content container - contains the settings switches */}
         <View style={globalStyles.contentContainer}>
           <View style={{ flexDirection: "column" }}>
             <View

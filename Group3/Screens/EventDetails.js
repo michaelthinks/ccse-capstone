@@ -1,3 +1,7 @@
+// EventDetails.js is displayed when the user selects an event in EventsList or LinkedEvents.
+// It displays more detailed information about the event, open the system calendar to the selected event day, 
+// like/dislike the event, and open links associated with the event.
+
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { Text, View, Linking, Button, SafeAreaView, Image, TouchableWithoutFeedback } from 'react-native';
@@ -6,21 +10,21 @@ import { WebView } from 'react-native-webview';
 import AppFunc from '../Scripts/AppFunctions.js';
 import EventsList from './EventsList.js';
 
+// State flag used to determine if screen has been updated so the page can be refreshed
 state = {
     updatedScreen: false
 }
 
 export default class EventDetails extends Component {
+    constructor() {
+        super();
+    }
 
     // App object so we can use the functions in App.js
     AppFunctions = new AppFunc();
 
     // Import EventsList so we can access Events functions
     EventFunctions = new EventsList();
-
-    constructor() {
-        super();
-    }
 
     // This function triggers when the user clicks a link within the webview - it opens
     // the link in an external browser instead of opening it in the web view
@@ -35,12 +39,15 @@ export default class EventDetails extends Component {
 
     render() {
 
-
+        // Check to see eventToView is set to "surprise" - this is caused when the user hits the hidden button in the
+        // app drawer directly below the last item
         var eventToView  = this.props.route.params ? this.props.route.params.eventToView : "surprise";
 
         // This variable will hold all of the event data once we search through the global event list and find it
         var event;
 
+        // If user found the easter egg, set the event data to the east egg data instead of searching for it in
+        // eventsDataSource
         if (eventToView == "surprise") {
             event = {
                 "EventId": "0",
@@ -54,6 +61,7 @@ export default class EventDetails extends Component {
                 "EventLink": "https://www.kennesaw.edu" 
               };
         }
+        // No easter egg - find the proper event in eventsDataSource
         else {
             // Search through the global event list for the correct event
             global.eventsDataSource.forEach(eventElement => {
@@ -67,12 +75,13 @@ export default class EventDetails extends Component {
         
         return(
             // SafeAreaView is iOS specific and doesn't do anything on Android. It keeps the main 
-            // View are below the notch on an iPhone
+            // view area below the notch on an iPhone
             <SafeAreaView style={globalStyles.mainContainer}>
                 {/* Sets touchbar back to being visible */}
                 <StatusBar style="auto" hidden={false} />
                     {/* This contains the header - title and refresh icon */}
                     
+                    {/* Header for the screen - contains the title, menu button and like button */}
                     <View style={globalStyles.eventDetailsHeaderContainer}>
                         <TouchableWithoutFeedback onPress={() => this.props.navigation.goBack()}>
                             <View style={globalStyles.menuIcon}>
@@ -80,7 +89,7 @@ export default class EventDetails extends Component {
                             </View>
                         </TouchableWithoutFeedback>
                         <View style={globalStyles.headerText}>
-                            <Text style={globalStyles.headerText}>Event Details</Text>
+                            <Text style={globalStyles.headerText}>Details</Text>
                         </View>
 
                         <TouchableWithoutFeedback onPress={() => { this.EventFunctions.likeEvent(eventToView); this.updateEvents() }}>
@@ -91,23 +100,21 @@ export default class EventDetails extends Component {
                         </TouchableWithoutFeedback>
                     </View>
 
-                    {/* This is the main container - it contains the FlatList that displays event items 
-                    Note that to access the data correctly, you must access global.eventsDataSource._55
-                    It seems that when React saves the data to Async (or when it retrieves it) it is separating the data
-                    into a new object called _55 - this will need to be figured out */}
+                    {/* This is the main container - it displays the information about the event */}
+                    {/* Image associated with the event */}
                     <View style={globalStyles.eventDetailsThumbnailContainer}>
                         <Image
                             style={globalStyles.eventDetailsThumbnail} 
                             source={{uri: event.EventImage,}} 
                         />
                     </View>
-
+                    {/* Add to calendar button */}
                     <View style={globalStyles.addToCalendarButton}>
                         <TouchableWithoutFeedback>
                             <Button onPress={ () => this.EventFunctions.openCal(event.EventName, event.EventAltDate) } color="#febc11" title="Add To Calendar" accessibilityLabel="This button will add the event to the system calendar" />
                         </TouchableWithoutFeedback>
                     </View>
-
+                    {/* Title and date for the event */}
                     <View style={globalStyles.eventDetailsContentContainer}>
 
                         <View style={globalStyles.eventDetailsTitleContainer}>
@@ -119,12 +126,10 @@ export default class EventDetails extends Component {
                         </View>
                     </View>
                         
-                        
+                    {/* Main description container - it is a webview that renders all the description data (which has embedded HTML) */}
                     <WebView source={{html: '<html><head><meta name="viewport" content="width=device-width, initial-scale=1.0"></head><body>' + event.EventDescription + "</body></html>"}} 
                         style={globalStyles.eventDetailsWebView} 
                         onShouldStartLoadWithRequest={this.openLinkFromWebView} >
-
-
                     </WebView>
 
 

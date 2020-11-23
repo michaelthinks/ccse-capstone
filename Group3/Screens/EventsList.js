@@ -1,23 +1,26 @@
+// EventsList.js is where the user will spend most of their time. This file also contains all of the functions associated 
+// with liking events, navigating to events, and getting information for events. Other event-related screens, such as 
+// EventDetails and LikedEvents, import this file and use it's function to render their event information as well.
+
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
-import { FlatList, Text, View, Linking, SafeAreaView, Image, TouchableWithoutFeedback, Alert } from 'react-native';
+import { FlatList, Text, View, Linking, SafeAreaView, Image, TouchableWithoutFeedback, Alert, ToastAndroid } from 'react-native';
 import { globalStyles } from '../styles/styles.js';
 import { DrawerActions, NavigationContainer } from '@react-navigation/native';
 import AppFunc from '../Scripts/AppFunctions.js';
 
+// State flag used to determine if the page needs to be updated
+// Also used for triggering a refresh
 state = {
     updatedScreen: false
 }
 
 export default class EventsList extends Component {
-
-    // App object so we can use the functions in App.js
-    AppFunctions = new AppFunc();
-
-
     constructor() {
         super();
     }
+    // Import AppFunctions
+    AppFunctions = new AppFunc();
 
     // This function will navigate to the event details page to view more information about the event
     goToEvent(event) {
@@ -34,11 +37,12 @@ export default class EventsList extends Component {
     }
 
     likeEvent(name, updateEventsListState) {
-        // Check to see if the user found the easter egg
+        // Check to see if the user found the easter egg and clicked the like button
         // If we don't do this, it'll crash the app if they like the event easter egg
         if (name == "surprise") {
             Alert.alert(":D", "Thanks for liking us! You're pretty cool too.");
         }
+        // Otherwise, carry on as normal
         else {
             // This is sued as a cache for the following script to add events too - React Native won't allow you to directly delete array elements
             // from the global variable, so we build our liked events in this cache and then reassign it to the global variable
@@ -47,14 +51,14 @@ export default class EventsList extends Component {
             // This variable helps us keep track of whether or not we've found a match in the following for loop
             var deletedElement = false;
 
+            // Iterate through each event in the eventsDataSource to find the correct one to like
             global.eventsDataSource.forEach(eventElement => {
                 // Check to see if we've found the right event in the events list
                 if (eventElement.EventName == name) {
                     if (global.likedEvents.liked.length < 1) {
-                        console.log("No liked elements exist - adding this one as the first");
                         likedCache.push(eventElement);
 
-                        // Add new event to notifications list
+                        // Add new event to notifications list if user has likedEvents notifications enabled
                         if (global.settings.likedEvents) {
                             this.AppFunctions.scheduleNotification("A Liked CCSE Event Is Starting Soon!", eventElement.EventName, new Date(eventElement.EventDate).valueOf());       
                         }
@@ -66,12 +70,10 @@ export default class EventsList extends Component {
                             if (global.likedEvents.liked[i].EventName == name) {
                                 // Just ignore the event and DON'T add it to the liked cache
                                 // Set deletedElement to true so we know that an element was disliked
-                                console.log("deleting event");
                                 deletedElement = true;
                             }
                             else {
                                 // Otherwise, add it to our liked cache
-                                console.log("adding already existing event to cache");
                                 likedCache.push(global.likedEvents.liked[i]);
                             }
                         }
@@ -79,7 +81,6 @@ export default class EventsList extends Component {
                         // Check deleted Element - if it's still false, that means we have a new likedEvent and we need to add it to the cache
                         if (!deletedElement) {
                             likedCache.push(eventElement);
-                            console.log("New Event Added");
 
                             // Add new event to notifications list
                             if (global.settings.likedEvents) {
@@ -89,7 +90,7 @@ export default class EventsList extends Component {
                     }
                 }
                 else {
-                    // Do nothing - element does not match
+                    // Do nothing - the element does not match so we continue to the next event element
                 }
                 
             });
@@ -97,15 +98,16 @@ export default class EventsList extends Component {
             // Save likedEvents to the global variable
             global.likedEvents.liked = likedCache;
 
-            // Save liked events to AsyncStorage
+            // Save liked events to AsyncStorage persistent storage
             this.AppFunctions.storeDataItem("likedEvents", { "liked": likedCache })
 
             // Check if an element was deleted - if so, cancel notification for liked events and re-register the remaining ones
             if (deletedElement) {
-                // There isn't a way to remove a single event notification, so cancel all liked event notifications and
+                // There isn't a way to easily remove a single event notification, so cancel all liked event notifications and
                 // reload them
                 this.AppFunctions.cancelAllNotifications();
 
+                // Check to see if any events are liked and, if so, iterate through them and create a notification for them
                 if(global.settings.likedEvents) {
                     global.likedEvents.liked.forEach(eventElement => {
                         this.AppFunctions.scheduleNotification("A Liked CCSE Event Is Starting Soon!", eventElement.EventName, new Date(eventElement.EventDate).valueOf());
@@ -116,12 +118,20 @@ export default class EventsList extends Component {
     }
 
     // This function will trigger set state and cause the page to refresh
-    updateEvents() {
-        this.setState({updatedScreen: true});
+    async updateEvents() {
+        // Call retrieve and save event data to see if there are new events then refresh the page
+        await this.AppFunctions.retrieveAndSaveEventData('https://calendar.kennesaw.edu/department/college_of_computing_and_software_engineering/calendar/xml');
+
+        // Force screen refresh
+        this.setState({updatedScreen: true})
+
+        // Show the user a toast - Android only, obviously
+        ToastAndroid.show("Refreshing...", ToastAndroid.SHORT);
     }
 
     // This function is used to determine whether or not the given event has been liked - it is used to figure out which liked icon to use in the events list
     checkLiked(name) {
+        // Flag that is changed if the event is liked
         var eventIsLiked = false;
 
         // Check to see if event is liked, if it is, set out flag variable to true
@@ -133,15 +143,6 @@ export default class EventsList extends Component {
 
         // Return the correct JSX image tag depending onwhether or not eventIsLiked is true
         return eventIsLiked ? <Image key="LikeImage" source={ require('../assets/likeSelectedIcon.png') }></Image> : <Image key="LikeImage" source={ require('../assets/likeIcon.png') }></Image>;
-    }
-
-    getAnImage(imageUri) {
-        // fetch(imageUri).then((data) => {
-        //     return data;
-        // });
-        console.log("uri: " + imageUri);
-        return "uri:" + imageUri;
-
     }
 
     // This function properly formats the date - the RSS data gives the date in 24 hour format
@@ -156,13 +157,8 @@ export default class EventsList extends Component {
         var tod = "AM";
         var hh = hours;
 
-        console.log(hours);
-        console.log(min);
-        console.log(sec);
-
         if (hours >= 12) {
             hh = hours - 12;
-            console.log(hh);
             tod = "PM";
         }
 
@@ -179,7 +175,7 @@ export default class EventsList extends Component {
     }
 
     // This function takes a date as an argument and opens the system Calendar app
-    // eventName is used in the prototype code below
+    // eventName is used in the prototype code below and not in the current functioning app
     async openCal(eventName, date) {
         // This opens the devices calendar to the correct day but does not open up a new 
         // event entry
@@ -230,21 +226,18 @@ export default class EventsList extends Component {
         //         },).then((id) => console.log(id))
         //     )
         //     .catch(alert("You did not grant Calendar Permissions."));
-
-        
-        
     }
 
     render() {
-        //console.log(JSON.stringify(global.eventsDataSource));
         // This function is used to render each individual event item
         // It is called by the FlatList renderItem property below
+        // renderItem passes a single event (the item) from eventsDataSource and this function renders it
         // TouchableWithoutFeedback encloses each element that needs to be
         // "touchable" - ie. you press it and it goes to the event
         const renderEventItem = ({item}) => (
             
             <View key={item} style={globalStyles.eventListItemHeaderContainer}>
-                
+                {/* Event Thumbnail */}
                 <TouchableWithoutFeedback key={item + "ThumbnailContainer"} onPress={() => this.goToEvent(item.EventName)}>
                     <View key={item + "Thumbnail"} style={globalStyles.eventListItemThumbnail}>
                         <Image key={item + "ThumbnailImage"}
@@ -253,14 +246,14 @@ export default class EventsList extends Component {
                         />
                     </View>
                 </TouchableWithoutFeedback>
-
+                {/* Event Title */}
                 <TouchableWithoutFeedback key={item + "TitleContainer"} onPress={() => this.goToEvent(item.EventName)}>
                     <View key={item + "Title"} style={globalStyles.eventListItemTitleContainer}>
                         <Text key={item + "TitleText"} style={globalStyles.eventListItemTitle}>{item.EventName}</Text>    
                     </View>
                 </TouchableWithoutFeedback>
                 
-                
+                {/* Event Description and like button */}
                 <View key={item + "ContentContainer"} style={globalStyles.eventListItemContentContainer}>
 
                     <TouchableWithoutFeedback key={item + "DescriptionContainer"} onPress={() => this.goToEvent(item.EventName)}>
@@ -283,12 +276,10 @@ export default class EventsList extends Component {
         return(
             // SafeAreaView is iOS specific and doesn't do anything on Android. It keeps the main 
             // View are below the notch on an iPhone
-            
             <SafeAreaView style={globalStyles.mainContainer}>
                 {/* Sets touchbar back to being visible */}
                 <StatusBar style="auto" hidden={false} />
                     {/* This contains the header - title and refresh icon */}
-                    
                     <View style={globalStyles.headerContainer}>
                         <TouchableWithoutFeedback onPress={() => this.props.navigation.dispatch(DrawerActions.openDrawer())}>
                             <View style={globalStyles.menuIcon}>
@@ -296,27 +287,23 @@ export default class EventsList extends Component {
                             </View>
                         </TouchableWithoutFeedback>
                         <View style={globalStyles.headerText}>
-                            <Text style={globalStyles.headerText}>CCSE Events</Text>
+                            <Text style={globalStyles.headerText}>Events</Text>
                         </View>
 
-                        <TouchableWithoutFeedback onPress={() => this.setState({updateCount: '0'})}>
+                        <TouchableWithoutFeedback onPress={() => this.setState(this.updateEvents)}>
                         <View style={globalStyles.refreshIcon}>
                             <Image source={require('../assets/refreshicon.png')} />
                         </View>
                         </TouchableWithoutFeedback>
                     </View>
 
-                    {/* This is the main container - it contains the FlatList that displays event items 
-                    Note that to access the data correctly, you must access global.eventsDataSource._55
-                    It seems that when React saves the data to Async (or when it retrieves it) it is separating the data
-                    into a new object called _55 - this will need to be figured out */}
+                    {/* This is the main container - it contains the FlatList that displays event items */}
                     <View style={globalStyles.contentContainer}>
                         <FlatList
                             data={global.eventsDataSource}
                             renderItem={renderEventItem}
                             keyExtractor={(item, index) => item.EventId}
                             style={globalStyles.eventList}
-                            
                         />
                     </View>
 

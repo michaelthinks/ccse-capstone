@@ -1,6 +1,0 @@
-All the available events
-global.eventDataSource
-
-Liked events
-global.likedEvents
-

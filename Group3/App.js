@@ -1,17 +1,22 @@
+// App.js is the main starting point for the application
+// This file calls the main startup procedures (located in AppFunctions.js) and makes sure the user has 
+// the correct permissions, loads data from persistent storage, checks for new events, checks for liked events, etc.
+// It also handles setting up the navigation drawer.
+// Once this loads, it displays Home.js (the first item in the Drawer Navigator below)
+
 import React, { Component } from "react";
 import {
   View,
   ImageBackground,
 } from "react-native";
 import { NavigationContainer } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
 import { createDrawerNavigator } from "@react-navigation/drawer";
 import { globalStyles } from "./styles/styles.js";
 
 // Import AppFunctions library
 import AppFunc from "./Scripts/AppFunctions.js"
 
-//Importing different screens
+//Import the different screens
 import EventsList from "./Screens/EventsList";
 import Home from "./Screens/Home";
 import LikedEvents from "./Screens/LikedEvents.js";
@@ -22,9 +27,8 @@ import SocialMediaFacebook from "./Screens/SocialMediaFacebook";
 import CcseHomepage from "./Screens/CcseHomepage";
 import EventDetails from "./Screens/EventDetails";
 
-//used to set up Drawer and Stack Navigators
+// Setup navigation drawer
 const Drawer = createDrawerNavigator();
-const Stack = createStackNavigator();
 
 export default class App extends Component {
 
@@ -40,6 +44,12 @@ export default class App extends Component {
     this.AppFunctions.loadSettingsState();
 
     // Check the event data and save it if necessary (this function handles checking to see if it has been updated as well)
+    // It retrieves data from the given URL - if the URL for some reason changes in the future it can be updated here, but the 
+    // application is specifically tailored to the data format that this source provides. If for some reason the data source is change 
+    // in the future (for instance, from RSS to raw XML or from RSS to JSON) then it will break the app and this function 
+    // along with formatEventData, both in AppFunctions.js, will need to be updated to support it.
+    //
+    // If the URL is updated, make sure to update it for in the updateEvents function in EventsList.js!
     this.AppFunctions.retrieveAndSaveEventData('https://calendar.kennesaw.edu/department/college_of_computing_and_software_engineering/calendar/xml');
 
     // Check to see if liked events exists in asyncstorage - if it doesn't created

@@ -1,3 +1,7 @@
+// Home.js is the first screen the user sees when starting the app
+// It is initially loaded by the NavigationDrawer in App.js
+// It displays a nice KSU background along with buttons for events and campus maps.
+
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { Button, SafeAreaView, TouchableWithoutFeedback, Image, View, ImageBackground } from 'react-native';

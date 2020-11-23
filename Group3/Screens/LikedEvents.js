@@ -1,3 +1,7 @@
+// LikedEvents.js displays the list of events that the user has liked
+// This screen functions very similarly to EventsList.js except that it queries the 
+// global.likedEvents data source rather than the main events data source.
+
 import { StatusBar } from "expo-status-bar";
 import React, { Component } from "react";
 import {
@@ -26,10 +30,15 @@ export default class LikedEvents extends Component {
   }
 
   render() {
+      // This function is used to render each individual event item
+      // It is called by the FlatList renderItem property below
+      // renderItem passes a single event (the item) from eventsDataSource and this function renders it
+      // TouchableWithoutFeedback encloses each element that needs to be
+      // "touchable" - ie. you press it and it goes to the event
       const renderEventItem = ({ item }) => (
         
         <View key={item} style={globalStyles.eventListItemHeaderContainer}>
-                
+          {/* Event Thumbnail */}
           <TouchableWithoutFeedback key={item + "ThumbnailContainer"} onPress={(this.goToEvent)}>
               <View key={item + "Thumbnail"} style={globalStyles.eventListItemThumbnail}>
               <Image key={item + "ThumbnailImage"}
@@ -39,14 +48,14 @@ export default class LikedEvents extends Component {
               </View>
           </TouchableWithoutFeedback>
           
-
+          {/* Event Title */}
           <TouchableWithoutFeedback key={item + "TitleContainer"} onPress={(this.goToEvent)}>
               <View key={item + "Title"} style={globalStyles.eventListItemTitleContainer}>
                   <Text key={item + "TitleText"} style={globalStyles.eventListItemTitle}>{item.EventName}</Text>    
               </View>
           </TouchableWithoutFeedback>
           
-          
+          {/* Event Description and like button */}
           <View key={item + "ContentContainer"} style={globalStyles.eventListItemContentContainer}>
 
               <TouchableWithoutFeedback key={item + "DescriptionContainer"} onPress={(this.EventsFunctions.goToEvent)}>
@@ -66,9 +75,11 @@ export default class LikedEvents extends Component {
       );
 
       return (
+        // SafeAreaView is iOS specific and doesn't do anything on Android. It keeps the main 
+        // View are below the notch on an iPhone
         <SafeAreaView style={globalStyles.mainContainer}>
           <StatusBar style="auto" hidden={false} />
-
+          {/* Title and refresh button */}
           <View style={globalStyles.headerContainer}>
             <TouchableWithoutFeedback
               onPress={() =>
@@ -80,7 +91,7 @@ export default class LikedEvents extends Component {
               </View>
             </TouchableWithoutFeedback>
             <View style={globalStyles.headerText}>
-              <Text style={globalStyles.headerText}>Liked Events</Text>
+              <Text style={globalStyles.headerText}>Liked</Text>
             </View>
 
             <TouchableWithoutFeedback
@@ -92,6 +103,7 @@ export default class LikedEvents extends Component {
             </TouchableWithoutFeedback>
           </View>
 
+          {/* This is the main container - it contains the FlatList that displays event items */}
           <View style={globalStyles.contentContainer}>
             <FlatList
               data={global.likedEvents.liked}
