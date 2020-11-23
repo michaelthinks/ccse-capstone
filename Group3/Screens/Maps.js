@@ -1,3 +1,5 @@
+// Maps.js renders the campus maps in a scrollable view
+
 import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { Text, View, Button, SafeAreaView, Image, TouchableWithoutFeedback } from 'react-native';
@@ -11,6 +13,7 @@ mariettaImage = false;
 
 export default class Maps extends Component {
     
+    // Set the maps to false when user first visits the page
     constructor() {
         super();
         this.state = {kennesawImage: false};
@@ -28,6 +31,7 @@ export default class Maps extends Component {
 
     }
 
+    // Reset the page when user selects the close map button
     resetImages = () => {
         this.setState({mariettaImage: false});
         this.setState({kennesawImage: false});
@@ -56,7 +60,7 @@ export default class Maps extends Component {
                                     </View>
                                 </TouchableWithoutFeedback>
                                 <View style={globalStyles.adjustedHeaderText}>
-                                    <Text style={globalStyles.headerText}>Campus Maps</Text>
+                                    <Text style={globalStyles.headerText}>Maps</Text>
                                 </View>
 
 
@@ -73,7 +77,7 @@ export default class Maps extends Component {
                                                 onPress={this.displayKennesawMap}
                                                 title="Kennesaw Campus Map"
                                                 color="#febc11"
-                                                accessibilityLabel="This button will display the compass map for the KSU Kennesaw Campus" 
+                                                accessibilityLabel="This button will display the campus map for the KSU Kennesaw Campus" 
                                             />
                                         </View>
                                         <View style={globalStyles.mapsButton}>
@@ -82,14 +86,14 @@ export default class Maps extends Component {
                                                 onPress={this.displayMariettaMap}
                                                 title="Marietta Campus Map"
                                                 color="#febc11"
-                                                accessibilityLabel="This button will display the compass map for the KSU Marietta Campus" 
+                                                accessibilityLabel="This button will display the campus map for the KSU Marietta Campus" 
                                             />
                                         </View>
                                     </View>
                             </View>
                         
                     }
-                    {/* This will display a scrollable compass map when the respective map button is pressed */}   
+                    {/* This will display a scrollable campus map when the respective map button is pressed */}   
                     {this.state.kennesawImage &&
                         <View>
                             <View>
@@ -105,7 +109,7 @@ export default class Maps extends Component {
                             </ScrollView>
                         </View>
                     }
-                    {/* This will display a scrollable compass map when the respective map button is pressed */}
+                    {/* This will display a scrollable campus map when the respective map button is pressed */}
                     {this.state.mariettaImage &&
                         <View>
                             <View>

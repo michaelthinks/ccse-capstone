@@ -1,3 +1,10 @@
+// AppFunctions.js contains the core functions used by the app. Most functions in this file 
+// related to data retrieval, data storage, sends and cancelling notifications, checking the data 
+// sources, and other various functions.
+//
+// This file along with EventsList.js serve as the 2 main sources for the functions that control the app
+// EventsList.js contains functions related more to event rendering.
+
 import { Component, useCallback } from "react";
 import {
   Linking, Alert, Platform
@@ -128,9 +135,7 @@ export default class AppFunctions extends Component {
   // tags (such as tags that have an colon character in the object names, which is invalid in React),
   // and adds an event ID to the objects
   formatEventData(rawJsonData) {
-    //var rawJsonData = await this.loadDataItem(theKey);
-    //console.log(JSON.stringify(rawJsonData.rss.channel[0].item));
-    
+    // Select the correct item in the RSS data
     var eventJsonData = rawJsonData.rss.channel[0].item;
 
     for (key in eventJsonData) {
@@ -161,12 +166,12 @@ export default class AppFunctions extends Component {
       eventJsonData[key].EventId = key;
 
     }
-
+    // Return the formatted data
     return eventJsonData;
   }
 
   // OpenURL opens a given URL in an external browser
-  // Does not support deep links like slack://, twitter://, etc.
+  // It does not support deep links like slack://, twitter://, etc.
   OpenURL({ url, children }) {
     const handlePress = useCallback(async () => {
       // Checking if the link is supported for links with custom URL scheme.

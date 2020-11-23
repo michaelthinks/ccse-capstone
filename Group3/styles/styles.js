@@ -73,7 +73,7 @@ export const globalStyles = StyleSheet.create({
     },
 
     headerText: {
-        fontSize: 40,
+        fontSize: 30,
         marginLeft: 5,
         fontWeight: "bold",
         flex: .9,
@@ -147,10 +147,9 @@ export const globalStyles = StyleSheet.create({
       },
 
       // The below styles are used for the maps and settings screen
-      // maps styles are specific to the maps screen!
       // The styles needed to be separated out due to the way the page
-      // displays the maps - the global styles above did not render
-      // correctly
+      // displays the maps and settings - the global styles above did not render
+      // correctly and the title ended up too high or too low
       adjustedHeaderContainer: {
         flex: .1,
         flexDirection: 'row',
@@ -170,11 +169,11 @@ export const globalStyles = StyleSheet.create({
       },
 
       adjustedHeaderText: {
-        fontSize: 40,
+        fontSize: 30,
         marginLeft: 5,
         fontWeight: "bold",
         justifyContent: "center",
-        marginTop: 4,
+        marginTop: 12,
       },
 
       mapsButtonContainer: {
