@@ -1,3 +1,5 @@
+// Released under the MIT License - see LICENSE.txt
+//
 // AppFunctions.js contains the core functions used by the app. Most functions in this file 
 // related to data retrieval, data storage, sends and cancelling notifications, checking the data 
 // sources, and other various functions.

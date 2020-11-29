@@ -1,3 +1,5 @@
+// Released under the MIT License - see LICENSE.txt
+//
 // Home.js is the first screen the user sees when starting the app
 // It is initially loaded by the NavigationDrawer in App.js
 // It displays a nice KSU background along with buttons for events and campus maps.

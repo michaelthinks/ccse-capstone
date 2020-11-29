@@ -1,3 +1,5 @@
+Released under the MIT License - see LICENSE.txt
+
 \/ Use following to install the Navigation packages: \/
 ========================================================
 
@@ -31,3 +33,6 @@ global.settings
 
 The settings are stored in persistent AsyncStorage under the following key:
 settings
+
+All styles are imported as the following variable when needed:
+globalStyles
