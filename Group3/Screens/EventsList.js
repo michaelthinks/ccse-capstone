@@ -1,3 +1,5 @@
+// Released under the MIT License - see LICENSE.txt
+//
 // EventsList.js is where the user will spend most of their time. This file also contains all of the functions associated 
 // with liking events, navigating to events, and getting information for events. Other event-related screens, such as 
 // EventDetails and LikedEvents, import this file and use it's function to render their event information as well.
@@ -36,7 +38,7 @@ export default class EventsList extends Component {
         });
     }
 
-    likeEvent(name, updateEventsListState) {
+    likeEvent(name) {
         // Check to see if the user found the easter egg and clicked the like button
         // If we don't do this, it'll crash the app if they like the event easter egg
         if (name == "surprise") {

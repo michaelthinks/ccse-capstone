@@ -1,3 +1,9 @@
+// Released under the MIT License - see LICENSE.txt
+//
+// styles.js contains the styles for the entire application. Some inline styles are present in the individual screens as needed, but
+// the majority are contained here.
+// Imported as globalStyles within the application.
+
 import { StyleSheet, Platform, Dimensions } from 'react-native';
 
 const deviceHeight = Dimensions.get('window').height;

@@ -1,3 +1,5 @@
+// Released under the MIT License - see LICENSE.txt
+//
 // Settings.js contains the settings for the app
 // Currently there are only 2 - enable and disable notifications for liked events and new events
 
@@ -19,8 +21,8 @@ import AppFunctions from "../Scripts/AppFunctions";
 export default class Settings extends Component {
 
   // These state flags are used so that the switch on the pages display correct
-  // If you try to pull their state (enabled or disabled) directly from global.settings.* then
-  // they will not update correct.
+  // If you try to pull the switch state (enabled or disabled) within the switch directly from global.settings.* then
+  // they will not update correct. You must use a state variable for them to display correctly.
   state = {
     likedEvents: global.settings.likedEvents,
     newEvents: global.settings.newEvents,

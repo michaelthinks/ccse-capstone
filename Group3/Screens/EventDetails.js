@@ -1,3 +1,5 @@
+// Released under the MIT License - see LICENSE.txt
+//
 // EventDetails.js is displayed when the user selects an event in EventsList or LinkedEvents.
 // It displays more detailed information about the event, open the system calendar to the selected event day, 
 // like/dislike the event, and open links associated with the event.

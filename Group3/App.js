@@ -1,3 +1,5 @@
+// Released under the MIT License - see LICENSE.txt
+//
 // App.js is the main starting point for the application
 // This file calls the main startup procedures (located in AppFunctions.js) and makes sure the user has 
 // the correct permissions, loads data from persistent storage, checks for new events, checks for liked events, etc.

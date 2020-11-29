@@ -1,3 +1,5 @@
+// Released under the MIT License - see LICENSE.txt
+//
 // LikedEvents.js displays the list of events that the user has liked
 // This screen functions very similarly to EventsList.js except that it queries the 
 // global.likedEvents data source rather than the main events data source.

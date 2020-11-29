@@ -1,3 +1,5 @@
+// Released under the MIT License - see LICENSE.txt
+//
 // SocialMediaTwitter.js is essentially a webview that displays the 
 // CCSE Twitter page.
 

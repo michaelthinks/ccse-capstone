@@ -1,3 +1,5 @@
+// Released under the MIT License - see LICENSE.txt
+//
 // Maps.js renders the campus maps in a scrollable view
 
 import { StatusBar } from 'expo-status-bar';
