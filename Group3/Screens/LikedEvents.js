@@ -31,6 +31,17 @@ export default class LikedEvents extends Component {
     });
   }
 
+  // This function will navigate to the event details page to view more information about the event
+  // This is a duplicate of the function from EventsList - a last minute bug was found wherein if 
+  // this.EventsFunctions.goToEvent was called, it was cause the page to crashed due to an object 
+  // undefined error. This is most likely due making a call to navigate that resides in a different 
+  // screen.
+  goToEvent(event) {
+    this.props.navigation.navigate('Event Details', {
+        eventToView: event,
+    });
+  }
+
   render() {
       // This function is used to render each individual event item
       // It is called by the FlatList renderItem property below
@@ -41,7 +52,7 @@ export default class LikedEvents extends Component {
         
         <View key={item} style={globalStyles.eventListItemHeaderContainer}>
           {/* Event Thumbnail */}
-          <TouchableWithoutFeedback key={item + "ThumbnailContainer"} onPress={(this.goToEvent)}>
+          <TouchableWithoutFeedback key={item + "ThumbnailContainer"} onPress={() => this.goToEvent(item.EventName)}>
               <View key={item + "Thumbnail"} style={globalStyles.eventListItemThumbnail}>
               <Image key={item + "ThumbnailImage"}
                             style={{width: 400, height: 75}}
@@ -51,7 +62,7 @@ export default class LikedEvents extends Component {
           </TouchableWithoutFeedback>
           
           {/* Event Title */}
-          <TouchableWithoutFeedback key={item + "TitleContainer"} onPress={(this.goToEvent)}>
+          <TouchableWithoutFeedback key={item + "TitleContainer"} onPress={() => this.goToEvent(item.EventName)}>
               <View key={item + "Title"} style={globalStyles.eventListItemTitleContainer}>
                   <Text key={item + "TitleText"} style={globalStyles.eventListItemTitle}>{item.EventName}</Text>    
               </View>
@@ -60,7 +71,7 @@ export default class LikedEvents extends Component {
           {/* Event Description and like button */}
           <View key={item + "ContentContainer"} style={globalStyles.eventListItemContentContainer}>
 
-              <TouchableWithoutFeedback key={item + "DescriptionContainer"} onPress={(this.EventsFunctions.goToEvent)}>
+              <TouchableWithoutFeedback key={item + "DescriptionContainer"} onPress={() => this.goToEvent(item.EventName)}>
                   <View key={item + "Description"} style={globalStyles.eventListItemDescription}>
                       <Text key={item + "DescriptionText"} numberOfLines={5}>{item.FriendlyDescription}</Text>
                   </View>

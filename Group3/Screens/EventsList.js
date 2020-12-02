@@ -8,7 +8,7 @@ import { StatusBar } from 'expo-status-bar';
 import React, { Component } from 'react';
 import { FlatList, Text, View, Linking, SafeAreaView, Image, TouchableWithoutFeedback, Alert, ToastAndroid } from 'react-native';
 import { globalStyles } from '../styles/styles.js';
-import { DrawerActions, NavigationContainer } from '@react-navigation/native';
+import { DrawerActions } from '@react-navigation/native';
 import AppFunc from '../Scripts/AppFunctions.js';
 
 // State flag used to determine if the page needs to be updated
